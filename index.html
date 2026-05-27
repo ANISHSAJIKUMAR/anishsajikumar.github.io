@@ -26,9 +26,12 @@
 <!-- Inter for prose, JetBrains Mono for tabular numbers -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+<!-- Load Google Fonts CSS without blocking render: media=print swaps to all on load. -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" /></noscript>
 
 <link rel="stylesheet" href="assets/style.css" />
+<!-- Plausible analytics: defer + async so it never blocks render -->
 <script defer data-domain="anishsajikumar.github.io" src="https://plausible.io/js/script.js"></script>
 </head>
 

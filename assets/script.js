@@ -195,9 +195,14 @@ function runVT(work) {
   const bar = document.getElementById('progressBar');
   if (!bar) return;
 
+  // Cache scrollHeight - innerHeight; recompute only when geometry changes.
+  // Reading scrollHeight on every scroll forces a layout flush.
+  let max = 0;
+  const refreshMax = () => { max = document.documentElement.scrollHeight - window.innerHeight; };
+  refreshMax();
+
   let ticking = false;
   const update = () => {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
     const pct = max > 0 ? (window.scrollY / max) * 100 : 0;
     bar.style.width = pct + '%';
     ticking = false;
@@ -210,7 +215,8 @@ function runVT(work) {
     }
   };
   window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll, { passive: true });
+  window.addEventListener('resize', () => { refreshMax(); onScroll(); }, { passive: true });
+  window.addEventListener('load', refreshMax);
   update();
 })();
 
@@ -386,28 +392,41 @@ const _fineCursor   = window.matchMedia('(hover: hover) and (pointer: fine)').ma
   if (!sections.length) return;
 
   let active = '';
+  // Cache offsetTops + sort once; refresh only on resize / load.
+  // Reading offsetTop on every scroll forces synchronous layout.
+  let sorted = [];
+  let docHeight = 0;
+  function refresh() {
+    sorted = sections
+      .map((s) => ({ ...s, top: s.el.offsetTop }))
+      .sort((a, b) => a.top - b.top);
+    docHeight = document.documentElement.scrollHeight;
+  }
+  refresh();
+
+  let ticking = false;
   function update() {
-    // Sort by visual position (offsetTop), not DOM order — sections may render out of order
-    const sorted = sections.slice().sort((a, b) => a.el.offsetTop - b.el.offsetTop);
-    // Anchor near the top of the viewport (140px in) so the rail follows what you've just scrolled into
+    ticking = false;
+    if (!sorted.length) return;
     const anchor = window.scrollY + 140;
-    // Pick the LAST section whose top has crossed the anchor; fallback to the first
     let best = sorted[0];
     for (const s of sorted) {
-      if (s.el.offsetTop <= anchor) best = s;
+      if (s.top <= anchor) best = s;
       else break;
     }
-    // If we're at the very bottom of the document, force the last section to highlight
-    const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
-    if (atBottom) best = sorted[sorted.length - 1];
+    if (window.innerHeight + window.scrollY >= docHeight - 4) best = sorted[sorted.length - 1];
     if (best.id !== active) {
       active = best.id;
       for (const s of sections) s.link.classList.toggle('is-active', s.id === active);
     }
   }
+  function onScroll() {
+    if (!ticking) { requestAnimationFrame(update); ticking = true; }
+  }
   update();
-  window.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', () => { refresh(); update(); }, { passive: true });
+  window.addEventListener('load', () => { refresh(); update(); });
 })();
 
 
@@ -1255,13 +1274,19 @@ const _v2_reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 (function scrollTop() {
   const btn = document.getElementById('scrollTop');
   if (!btn) return;
-  function onScroll() {
-    if (window.scrollY > window.innerHeight * 0.9) btn.classList.add('is-visible');
-    else btn.classList.remove('is-visible');
+  // Cache the threshold; recompute on resize. innerHeight reads on every scroll
+  // are cheap individually but accumulate across handlers.
+  let threshold = window.innerHeight * 0.9;
+  let ticking = false;
+  function update() {
+    ticking = false;
+    btn.classList.toggle('is-visible', window.scrollY > threshold);
   }
+  function onScroll() { if (!ticking) { requestAnimationFrame(update); ticking = true; } }
   window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', () => { threshold = window.innerHeight * 0.9; update(); }, { passive: true });
   btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: _v2_reduce ? 'auto' : 'smooth' }));
-  onScroll();
+  update();
 })();
 
 /* 24.O — Click-to-copy email + section anchors --------------------------*/
