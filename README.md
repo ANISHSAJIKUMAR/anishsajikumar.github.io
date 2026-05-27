@@ -1,5 +1,7 @@
 # Anish Saji Kumar — Portfolio
 
+[![CI](https://github.com/ANISHSAJIKUMAR/anishsajikumar.github.io/actions/workflows/ci.yml/badge.svg)](https://github.com/ANISHSAJIKUMAR/anishsajikumar.github.io/actions/workflows/ci.yml)
+
 Static one-page portfolio + resume host.
 
 🌐 **Live site:** https://anishsajikumar.github.io/

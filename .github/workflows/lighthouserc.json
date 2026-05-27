@@ -1,0 +1,29 @@
+{
+  "_comment_purpose": "Lighthouse CI config — controls how Chrome audits the site during the GitHub Actions run.",
+  "_comment_collect": "How Lighthouse should fetch the page: spin up a static server in the repo root, hit '/' three times, average the runs (smooths out jitter on shared CI runners).",
+  "_comment_assert": "Score thresholds. We use 'warn' (not 'error') so tiny perf wobbles do not block PRs. Bump to 'error' once the scores are stable.",
+  "_comment_upload": "Where the report goes. temporaryPublicStorage uploads to a free public viewer that the workflow prints a link to.",
+
+  "ci": {
+    "collect": {
+      "staticDistDir": ".",
+      "url": ["http://localhost/"],
+      "numberOfRuns": 3,
+      "settings": {
+        "preset": "desktop",
+        "skipAudits": ["uses-http2"]
+      }
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance":     ["warn", { "minScore": 0.85 }],
+        "categories:accessibility":   ["warn", { "minScore": 0.95 }],
+        "categories:best-practices":  ["warn", { "minScore": 0.90 }],
+        "categories:seo":             ["warn", { "minScore": 0.95 }]
+      }
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    }
+  }
+}

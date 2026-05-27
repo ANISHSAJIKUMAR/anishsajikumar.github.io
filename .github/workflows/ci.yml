@@ -1,0 +1,115 @@
+# -----------------------------------------------------------------------------
+# CI for the static portfolio site.
+#
+# What this does, in plain English:
+#   1. On every push to main and on every pull request, GitHub spins up a fresh
+#      Ubuntu runner.
+#   2. It checks out the repo, validates the HTML, scans every link in the
+#      site for 404s, then runs Lighthouse against a local copy of the site to
+#      score performance / accessibility / SEO / best-practices.
+#   3. The Lighthouse report is uploaded as a downloadable artifact so you (or
+#      a recruiter peeking at the Actions tab) can see the scores.
+#
+# What this does NOT do:
+#   - It does not deploy. GitHub Pages still auto-publishes from main on its
+#     own. This workflow is purely a quality gate + visible green checkmark.
+# -----------------------------------------------------------------------------
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  # Lets you re-run the checks manually from the Actions tab without a commit.
+  workflow_dispatch:
+
+# Cancel an in-flight run if a newer commit lands on the same branch — saves
+# Actions minutes and stops stale results from overwriting fresh ones.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Job 1: HTML validation. Catches unclosed tags, missing alt attributes,
+  # invalid ARIA, etc. Runs offline against the source files — no network.
+  # ---------------------------------------------------------------------------
+  html-validate:
+    name: Validate HTML
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node (needed for npx html-validate)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run html-validate against index.html
+        # --formatter=stylish gives nice readable output in the Actions log.
+        # We pin the package version so reruns are reproducible.
+        run: npx --yes html-validate@9.0.0 index.html --formatter=stylish
+
+  # ---------------------------------------------------------------------------
+  # Job 2: Broken-link check. Uses lychee (Rust-based, fast). It walks every
+  # <a href>, <link>, <img src>, etc. in the HTML/CSS/JS and reports anything
+  # that returns 4xx/5xx. Runs in parallel with html-validate.
+  # ---------------------------------------------------------------------------
+  link-check:
+    name: Check links
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Run lychee link checker
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # Scan the rendered HTML + assets, ignoring things we don't control
+          # (mailto links, localhost-only previews, the GitHub Pages URL itself
+          # which 404s during the build window if Pages is mid-deploy).
+          args: >-
+            --no-progress
+            --exclude-mail
+            --exclude-loopback
+            --exclude '^https://anishsajikumar\.github\.io'
+            --exclude '^https://github\.com/ANISHSAJIKUMAR'
+            './**/*.html'
+            './**/*.css'
+            './**/*.js'
+            './**/*.md'
+          # Don't fail the whole PR on transient 5xx — only on 4xx.
+          fail: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ---------------------------------------------------------------------------
+  # Job 3: Lighthouse audit. Spins up a tiny local server, points headless
+  # Chrome at it, scores perf / a11y / best-practices / SEO, and saves the
+  # full HTML report as a downloadable artifact.
+  # ---------------------------------------------------------------------------
+  lighthouse:
+    name: Lighthouse audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run Lighthouse CI
+        # treosh/lighthouse-ci-action handles starting a static server, running
+        # Lighthouse, and exposing the report. We use temporaryPublicStorage so
+        # the report URL is also printed in the Actions log.
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          # Path to the static site root — repo root in our case.
+          configPath: ./.github/workflows/lighthouserc.json
+          uploadArtifacts: true
+          temporaryPublicStorage: true
