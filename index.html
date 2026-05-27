@@ -37,12 +37,55 @@
 <!-- Skip link for keyboard / screen-reader users -->
 <a class="skip" href="#main">Skip to content</a>
 
+<!-- Sticky section index — only renders on wide screens via CSS -->
+<nav class="rail-index" aria-label="Section quick-jump">
+  <a href="#metrics"    data-label="Impact"     data-section="metrics">01</a>
+  <a href="#about"      data-label="About"      data-section="about">02</a>
+  <a href="#skills"     data-label="Skills"     data-section="skills">03</a>
+  <a href="#experience" data-label="Experience" data-section="experience">04</a>
+  <a href="#projects"   data-label="Projects"   data-section="projects">05</a>
+  <a href="#education"  data-label="Education"  data-section="education">06</a>
+  <a href="#contact"    data-label="Contact"    data-section="contact">07</a>
+</nav>
+
+<!-- Cursor label chip — shown when hovering specific links (JS-driven) -->
+<div class="cursor-label" id="cursorLabel" aria-hidden="true"></div>
+
+<!-- Easter-egg toast (Konami code) -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- v2 #49 orbital scroll-to-top button -->
+<button class="scroll-top" id="scrollTop" type="button" aria-label="Back to top" title="Back to top">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<!-- v2 #33 sticky bottom contact pill (mobile only) -->
+<a class="dock-cta" href="#contact" aria-label="Contact me">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+  <span>Say hi</span>
+</a>
+
+<!-- Reading-progress bar pinned to the very top of the viewport -->
+<div class="progress" aria-hidden="true"><div class="progress__bar" id="progressBar"></div></div>
+
 <!-- Animated background mesh — pure CSS, GPU-friendly -->
 <div class="bg-mesh" aria-hidden="true">
   <div class="bg-mesh__blob bg-mesh__blob--1"></div>
   <div class="bg-mesh__blob bg-mesh__blob--2"></div>
   <div class="bg-mesh__blob bg-mesh__blob--3"></div>
 </div>
+
+<!-- v2 #1 drifting conic mesh + v2 #4 light-leak streaks -->
+<div class="bg-aurora" aria-hidden="true"></div>
+<div class="bg-leaks" aria-hidden="true">
+  <span class="bg-leaks__a"></span>
+  <span class="bg-leaks__b"></span>
+</div>
+<!-- v2 #3 film-grain overlay (tiled SVG noise via background-image in CSS) -->
+<div class="bg-grain" aria-hidden="true"></div>
+
+<!-- v2 #35 curtain reveal — slid off after first paint -->
+<div class="curtain" id="curtain" aria-hidden="true"></div>
 
 <!-- Top navigation -->
 <header class="nav" role="banner">
@@ -59,56 +102,195 @@
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
     </nav>
-    <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark / light">
-      <svg class="theme-toggle__sun"  width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-      <svg class="theme-toggle__moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-    </button>
+    <!-- Right-side action cluster: theme picker, light/dark toggle, mobile menu -->
+    <div class="nav__actions">
+      <!-- v2 #12 pipeline status pill (in nav, desktop only) -->
+      <span class="pipe-pill" title="Latest CI status (manual stub — wire up at build time)">
+        <span class="pipe-pill__dot"></span>
+        <span class="pipe-pill__text">Pipeline <strong>green</strong> · 47 builds · 0 flakes</span>
+      </span>
+      <!-- v2 #23 prefs button -->
+      <button class="icon-btn" type="button" popovertarget="prefsPop" aria-label="Display preferences" title="Display preferences">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+      </button>
+      <!-- Theme picker — opens popover via the native popovertarget attribute -->
+      <button class="icon-btn" type="button" popovertarget="themePop" aria-label="Choose theme color" title="Theme color">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/>
+          <path d="M12 22a10 10 0 1 1 0-20c5.523 0 10 4.477 10 10 0 1.657-1.343 3-3 3h-2.5a2 2 0 0 0-1.5 3.319V18a4 4 0 0 1-3 4z"/>
+        </svg>
+      </button>
+      <!-- Light / dark mode toggle -->
+      <button id="themeToggle" class="icon-btn theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark / light">
+        <svg class="theme-toggle__sun"  width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="theme-toggle__moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <!-- Mobile-only hamburger; opens the bottom sheet popover -->
+      <button class="icon-btn menu-btn" type="button" popovertarget="menuSheet" aria-label="Open menu" title="Menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
   </div>
 </header>
+
+<!-- ============== THEME PICKER POPOVER ============== -->
+<!-- Browser-native popover: Escape and outside-click dismiss are free. -->
+<div popover id="themePop" class="theme-pop" aria-label="Theme color picker">
+  <p class="theme-pop__title">Theme color</p>
+  <div class="theme-pop__grid">
+    <button type="button" class="theme-swatch" data-theme="bronze"   aria-pressed="false"> <span class="theme-swatch__chip"></span>Bronze</button>
+    <button type="button" class="theme-swatch" data-theme="midnight" aria-pressed="false"> <span class="theme-swatch__chip"></span>Midnight</button>
+    <button type="button" class="theme-swatch" data-theme="forest"   aria-pressed="true">  <span class="theme-swatch__chip"></span>Forest</button>
+    <button type="button" class="theme-swatch" data-theme="plum"     aria-pressed="false"> <span class="theme-swatch__chip"></span>Plum</button>
+    <button type="button" class="theme-swatch" data-theme="solar"    aria-pressed="false"> <span class="theme-swatch__chip"></span>Solar</button>
+    <button type="button" class="theme-swatch" data-theme="slate"    aria-pressed="false"> <span class="theme-swatch__chip"></span>Slate</button>
+  </div>
+</div>
+
+<!-- v2 #23-26 PREFERENCES popover (density / motion / font / CVD) -->
+<div popover id="prefsPop" class="prefs-pop" aria-label="Display preferences">
+  <p class="prefs-pop__title">Display</p>
+  <div class="prefs-row">
+    <span class="prefs-row__label">Density</span>
+    <div class="seg" data-pref="density">
+      <button type="button" data-val="compact">Compact</button>
+      <button type="button" data-val="cosy" aria-pressed="true">Cosy</button>
+      <button type="button" data-val="comfy">Comfy</button>
+    </div>
+  </div>
+  <div class="prefs-row">
+    <span class="prefs-row__label">Motion</span>
+    <div class="seg" data-pref="motion">
+      <button type="button" data-val="low">Low</button>
+      <button type="button" data-val="med" aria-pressed="true">Med</button>
+      <button type="button" data-val="high">High</button>
+    </div>
+  </div>
+  <div class="prefs-row">
+    <span class="prefs-row__label">Font</span>
+    <div class="seg" data-pref="font">
+      <button type="button" data-val="sans" aria-pressed="true">Sans</button>
+      <button type="button" data-val="serif">Serif</button>
+      <button type="button" data-val="mono">Mono</button>
+    </div>
+  </div>
+  <div class="prefs-row">
+    <span class="prefs-row__label">Color-vision-safe</span>
+    <div class="seg" data-pref="cvd">
+      <button type="button" data-val="off" aria-pressed="true">Off</button>
+      <button type="button" data-val="on">On</button>
+    </div>
+  </div>
+  <p class="prefs-pop__hint">Press <kbd>?</kbd> for shortcuts · <kbd>⌘K</kbd> for command palette</p>
+</div>
+
+<!-- v2 #27 COMMAND PALETTE -->
+<dialog class="cmdk" id="cmdk" aria-label="Command palette">
+  <form class="cmdk__form" method="dialog" onsubmit="return false">
+    <input class="cmdk__input" id="cmdkInput" type="text" placeholder="Jump to section, switch theme, copy email…" autocomplete="off" />
+    <button type="button" class="cmdk__close" data-cmdk-close aria-label="Close palette">Esc</button>
+  </form>
+  <ul class="cmdk__list" id="cmdkList" role="listbox"></ul>
+  <footer class="cmdk__foot">
+    <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+    <span><kbd>↵</kbd> select</span>
+    <span><kbd>Esc</kbd> close</span>
+  </footer>
+</dialog>
+
+<!-- v2 #28 SHORTCUTS HELP -->
+<dialog class="kbd-help" id="kbdHelp" aria-label="Keyboard shortcuts">
+  <header class="kbd-help__head">
+    <h3>Keyboard shortcuts</h3>
+    <button type="button" class="icon-btn" data-kbd-close aria-label="Close">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </header>
+  <ul class="kbd-help__list">
+    <li><kbd>⌘ K</kbd> / <kbd>Ctrl K</kbd><span>Command palette</span></li>
+    <li><kbd>?</kbd><span>This help</span></li>
+    <li><kbd>G</kbd> then <kbd>A</kbd>/<kbd>S</kbd>/<kbd>E</kbd>/<kbd>P</kbd>/<kbd>C</kbd><span>Go to About / Skills / Experience / Projects / Contact</span></li>
+    <li><kbd>T</kbd><span>Toggle dark / light</span></li>
+    <li><kbd>D</kbd><span>Density toggle</span></li>
+    <li><kbd>↑↑↓↓←→←→ B A</kbd><span>Cycle themes (Konami)</span></li>
+    <li><kbd>Esc</kbd><span>Close any open panel</span></li>
+  </ul>
+</dialog>
+
+<!-- ============== MOBILE MENU SHEET POPOVER ============== -->
+<div popover id="menuSheet" class="menu-sheet" aria-label="Site navigation">
+  <header class="menu-sheet__head">
+    <span class="menu-sheet__title">Navigate</span>
+    <button class="icon-btn" type="button" popovertarget="menuSheet" popovertargetaction="hide" aria-label="Close menu" title="Close">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </header>
+  <ul class="menu-sheet__list">
+    <li><a href="#about">About</a></li>
+    <li><a href="#metrics">Impact</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</div>
 
 <main id="main">
 
   <!-- ============== HERO ============== -->
   <section id="top" class="hero">
+    <!-- v2 #18 parallax depth layers -->
+    <div class="hero__parallax" aria-hidden="true">
+      <span class="hero__parallax-layer hero__parallax-layer--back"></span>
+      <span class="hero__parallax-layer hero__parallax-layer--mid"></span>
+    </div>
+
     <div class="container hero__inner">
 
       <span class="hero__pill">
         <span class="hero__pill-dot"></span>
-        Available for senior SRE / DevOps roles
+        Open to staff / senior SRE roles · remote-first
       </span>
 
-      <p class="hero__kicker">MULTI-TENANT SAAS · 165+ AWS ENVIRONMENTS · FORTUNE-500 CUSTOMERS</p>
+      <p class="hero__kicker">OPERATING THE PLATFORM BEHIND 165+ FORTUNE-500 SAAS TENANTS</p>
 
-      <h1 class="hero__name">
-        Anish <span class="hero__name-accent">Saji</span> Kumar
-      </h1>
+      <!-- v2 #59 generative portrait sits left of the name on wide screens -->
+      <div class="hero__name-row">
+        <div class="genportrait" id="genPortrait" aria-hidden="true"></div>
+        <h1 class="hero__name">
+          Anish <span class="hero__name-accent">Saji</span> Kumar
+        </h1>
+      </div>
 
-      <p class="hero__title">
-        <span>DevOps Engineer</span>
-        <span class="hero__title-sep">·</span>
-        <span>Site Reliability Engineer</span>
-        <span class="hero__title-sep">·</span>
-        <span>AWS Cloud Platform Engineer</span>
-      </p>
+      <!-- v2 #10 whoami terminal replaces the static role line -->
+      <div class="termline" aria-label="Role summary">
+        <span class="termline__prompt">anish@sre <span class="termline__path">~</span> $</span>
+        <span class="termline__cmd" id="termCmd"></span><span class="termline__cursor">▌</span>
+        <span class="termline__out" id="termOut" aria-live="polite"></span>
+      </div>
 
-      <p class="hero__voice">"I make multi-tenant SaaS quietly reliable at 3&nbsp;AM — and explain why at 3&nbsp;PM."</p>
+      <p class="hero__voice">I keep the platform running for <strong>165+ Fortune-500 customer environments</strong>. When something breaks at 3&nbsp;a.m., I'm the one writing the RCA.</p>
 
       <div class="hero__cta">
-        <a class="btn btn--primary" href="assets/Anish_Saji_Kumar_Resume.pdf" target="_blank" rel="noopener">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-          Download Resume
-        </a>
-        <a class="btn btn--ghost" href="https://www.linkedin.com/in/anish-kumar-sre-devops" target="_blank" rel="noopener">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 24 22.28V1.72C24 .77 23.2 0 22.22 0z"/></svg>
-          LinkedIn
-        </a>
-        <a class="btn btn--ghost" href="https://github.com/ANISHSAJIKUMAR" target="_blank" rel="noopener">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2c-3.34.73-4.04-1.6-4.04-1.6-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.3-1.55 3.3-1.23 3.3-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3"/></svg>
-          GitHub
+        <a class="btn btn--primary btn--flip" href="assets/Anish_Saji_Kumar_Resume.pdf" target="_blank" rel="noopener">
+          <span class="btn__face btn__face--front">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+            Download Resume
+          </span>
+          <span class="btn__face btn__face--back">Last updated · 2026-05</span>
         </a>
         <a class="btn btn--ghost" href="#contact">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          Contact
+          Get in touch
+        </a>
+      </div>
+
+      <div class="hero__socials" aria-label="Profiles">
+        <a class="hero__social" href="https://www.linkedin.com/in/anish-kumar-sre-devops" target="_blank" rel="noopener" aria-label="LinkedIn" title="LinkedIn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 24 22.28V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+        </a>
+        <a class="hero__social" href="https://github.com/ANISHSAJIKUMAR" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2c-3.34.73-4.04-1.6-4.04-1.6-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.3-1.55 3.3-1.23 3.3-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3"/></svg>
         </a>
       </div>
 
@@ -116,6 +298,30 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
         Bengaluru, India · Open to relocation
       </p>
+
+      <!-- Live local time, refreshed every second by JS -->
+      <p class="hero__now" aria-live="polite">
+        <span class="hero__now-dot" aria-hidden="true"></span>
+        <span>It's <span id="nowTime">--:--</span> for me right now</span>
+      </p>
+
+      <!-- v2 #8 live uptime counter + #9 personal SLO bar -->
+      <div class="dash" aria-label="Live status">
+        <div class="dash__row">
+          <div class="dash__cell">
+            <span class="dash__lab">Uptime since last incident</span>
+            <span class="dash__val" id="uptimeVal" data-since="2026-04-12T03:00:00Z">--d --h --m --s</span>
+          </div>
+          <div class="dash__cell">
+            <span class="dash__lab">Personal availability target <em>99.90%</em></span>
+            <div class="slo">
+              <div class="slo__bar"><span class="slo__fill" id="sloFill"></span><span class="slo__target"></span></div>
+              <span class="slo__num" id="sloNum">99.94%</span>
+            </div>
+          </div>
+        </div>
+        <p class="dash__foot"><span class="dot" aria-hidden="true"></span>Last RCA shipped 3d ago · Last deploy reviewed today · Bytecode mood calm</p>
+      </div>
 
       <a href="#metrics" class="hero__scroll" aria-label="Scroll down">
         <span class="hero__scroll-mouse"><span class="hero__scroll-wheel"></span></span>
@@ -126,13 +332,23 @@
   <!-- ============== METRICS ============== -->
   <section id="metrics" class="metrics" aria-label="Impact">
     <div class="container">
-      <p class="metrics__eyebrow">Impact</p>
-      <div class="metrics__grid">
-        <div class="metric" data-reveal><div class="metric__num" data-count="165">0</div><span class="metric__plus">+</span><div class="metric__lab">AWS Environments</div></div>
-        <div class="metric" data-reveal><div class="metric__num" data-count="580">0</div><span class="metric__plus">+</span><div class="metric__lab">Repos Operated</div></div>
-        <div class="metric" data-reveal><div class="metric__num metric__num--text">24×7</div><div class="metric__lab">On-Call Coverage</div></div>
-        <div class="metric" data-reveal><div class="metric__num" data-count="5">0</div><span class="metric__plus">+</span><div class="metric__lab">Years SRE / DevOps</div></div>
-        <div class="metric" data-reveal><div class="metric__num" data-count="6">0</div><span class="metric__plus">+</span><div class="metric__lab">Years in Tech</div></div>
+      <p class="metrics__eyebrow">01 — Impact</p>
+      <div class="metrics__grid metrics__grid--three">
+        <div class="metric" data-reveal data-source="Counted from internal stack registry: 133 Alfresco + 32 Nuxeo customer environments, Q2 2026.">
+          <div class="metric__num" data-count="165">0</div><span class="metric__plus">+</span>
+          <div class="metric__lab">Customer environments<button type="button" class="info" aria-label="Source"><span aria-hidden="true">ⓘ</span></button></div>
+          <div class="metric__ctx">Multi-tenant Alfresco + Nuxeo SaaS, on-call 24×7</div>
+        </div>
+        <div class="metric" data-reveal data-source="Wall-clock measurement: serial baseline 4860s → parallel run 94s. xargs -P 8, 14-env sample, repeated 5 times.">
+          <div class="metric__num metric__num--text">80m → 1m&nbsp;34s</div>
+          <div class="metric__lab">Fleet diagnostic time<button type="button" class="info" aria-label="Source"><span aria-hidden="true">ⓘ</span></button></div>
+          <div class="metric__ctx">Parallel Python + <code>xargs -P</code> across 14 envs at once</div>
+        </div>
+        <div class="metric" data-reveal data-source="From Alfresco repo audit; counted via SQL: SELECT COUNT(*) duplicate_node_refs WHERE… 13-section RCA archived 2024-Q4.">
+          <div class="metric__num" data-count="147513">0</div>
+          <div class="metric__lab">Duplicate documents RCA'd<button type="button" class="info" aria-label="Source"><span aria-hidden="true">ⓘ</span></button></div>
+          <div class="metric__ctx">JVM bytecode forensics with <code>javap</code> · 13-section RCA</div>
+        </div>
       </div>
     </div>
   </section>
@@ -140,27 +356,73 @@
   <!-- ============== ABOUT ============== -->
   <section id="about" class="section">
     <div class="container">
-      <p class="section__eyebrow" data-reveal>About</p>
+      <p class="section__eyebrow" data-reveal>02 — About</p>
       <h2 class="section__title" data-reveal>About</h2>
 
       <div class="about">
         <p class="about__lead" data-reveal>
-          Site Reliability / DevOps Engineer running multi-tenant SaaS on AWS for
-          <strong>165+ Fortune-500 customer environments</strong> at Hyland (a
-          Gartner Magic Quadrant Leader for Document Management) — with 32 Nuxeo
-          Cloud tenants alongside, multiple AWS accounts and regions, end-to-end
-          ownership of 24×7 incident response on Datadog + PagerDuty,
-          blue-green PTM upgrades on Kubernetes (EKS), Terraform-driven
-          infrastructure, JVM-level Root Cause Analyses, and platform-wide
-          automation in production.
+          I'm an SRE / DevOps engineer at Hyland, where I run multi-tenant SaaS
+          on AWS for <strong>165+ Fortune-500 customer environments</strong>
+          alongside 32 Nuxeo Cloud tenants. The work spans multiple AWS
+          accounts and regions: 24×7 incident response on Datadog + PagerDuty,
+          blue-green PTM upgrades on EKS, Terraform-driven infrastructure,
+          JVM-level RCAs, and platform automation in production.
         </p>
         <p class="about__body" data-reveal>
-          5+ years full-time SRE / DevOps (6+ years in tech including
-          software-engineering internships) supporting Fortune-500 customers
-          in financial services, automotive, consumer goods, and insurance.
-          Operated workloads on Azure (AKS) and GCP (GKE) across customer
-          accounts.
+          5+ years in SRE / DevOps (6+ in tech with earlier software-engineering
+          internships), supporting customers in financial services, automotive,
+          consumer goods, and insurance. I've also operated workloads on Azure
+          (AKS) and GCP (GKE) across customer accounts.
         </p>
+      </div>
+
+      <!-- v2 #13 interactive cluster + #14 chaos button + #15 DAG arrows -->
+      <div class="cluster cluster--interactive" data-reveal>
+        <svg viewBox="0 0 480 200" role="img" aria-label="Live EKS cluster diagram — click pods to inspect" id="clusterSvg">
+          <defs>
+            <marker id="arrowhead" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+              <path d="M0,0 L0,6 L6,3 z" fill="currentColor"/>
+            </marker>
+          </defs>
+          <line class="link link--flow" x1="240" y1="100" x2="80"  y2="50" marker-end="url(#arrowhead)"/>
+          <line class="link link--flow" x1="240" y1="100" x2="160" y2="50" marker-end="url(#arrowhead)"/>
+          <line class="link link--flow" x1="240" y1="100" x2="320" y2="50" marker-end="url(#arrowhead)"/>
+          <line class="link link--flow" x1="240" y1="100" x2="400" y2="50" marker-end="url(#arrowhead)"/>
+          <line class="link link--flow" x1="240" y1="100" x2="120" y2="160" marker-end="url(#arrowhead)"/>
+          <line class="link link--flow" x1="240" y1="100" x2="240" y2="160" marker-end="url(#arrowhead)"/>
+          <line class="link link--flow" x1="240" y1="100" x2="360" y2="160" marker-end="url(#arrowhead)"/>
+          <!-- Worker pods (hexagons) — now real buttons -->
+          <g class="pod-g" tabindex="0" role="button" data-pod="api-7c4f"        data-cpu="18%" data-mem="312Mi" data-age="4d">
+            <polygon class="pod" points="80,30 95,42 95,58 80,70 65,58 65,42"/><text x="80" y="54" text-anchor="middle" class="pod-lab">api</text>
+          </g>
+          <g class="pod-g" tabindex="0" role="button" data-pod="ingest-92b1"     data-cpu="62%" data-mem="1.4Gi" data-age="1d">
+            <polygon class="pod" points="160,30 175,42 175,58 160,70 145,58 145,42"/><text x="160" y="54" text-anchor="middle" class="pod-lab">ingest</text>
+          </g>
+          <g class="pod-g" tabindex="0" role="button" data-pod="solr-3d2a"       data-cpu="71%" data-mem="3.2Gi" data-age="11d">
+            <polygon class="pod" points="320,30 335,42 335,58 320,70 305,58 305,42"/><text x="320" y="54" text-anchor="middle" class="pod-lab">solr</text>
+          </g>
+          <g class="pod-g" tabindex="0" role="button" data-pod="hazelcast-44e7"  data-cpu="34%" data-mem="2.1Gi" data-age="9d">
+            <polygon class="pod" points="400,30 415,42 415,58 400,70 385,58 385,42"/><text x="400" y="54" text-anchor="middle" class="pod-lab">hzl</text>
+          </g>
+          <g class="pod-g" tabindex="0" role="button" data-pod="audit-5f10"      data-cpu="9%"  data-mem="180Mi" data-age="2d">
+            <polygon class="pod" points="120,140 135,152 135,168 120,180 105,168 105,152"/><text x="120" y="166" text-anchor="middle" class="pod-lab">audit</text>
+          </g>
+          <g class="pod-g" tabindex="0" role="button" data-pod="repo-ab09"       data-cpu="44%" data-mem="2.8Gi" data-age="1d">
+            <polygon class="pod" points="240,140 255,152 255,168 240,180 225,168 225,152"/><text x="240" y="166" text-anchor="middle" class="pod-lab">repo</text>
+          </g>
+          <g class="pod-g" tabindex="0" role="button" data-pod="adf-c812"        data-cpu="22%" data-mem="540Mi" data-age="3d">
+            <polygon class="pod" points="360,140 375,152 375,168 360,180 345,168 345,152"/><text x="360" y="166" text-anchor="middle" class="pod-lab">adf</text>
+          </g>
+          <circle class="control" cx="240" cy="100" r="14"/>
+          <text x="240" y="103" text-anchor="middle" class="pod-lab pod-lab--ctrl">api</text>
+        </svg>
+        <div class="cluster__hud">
+          <span class="cluster__caption" id="clusterStatus">cluster · idle · 7/7 ready</span>
+          <button type="button" class="cluster__chaos" id="chaosBtn" title="Chaos engineering: kill a random pod">
+            <span class="cluster__chaos-icon" aria-hidden="true">⚡</span> Kill a pod
+          </button>
+        </div>
+        <div class="cluster__tip" id="clusterTip" role="tooltip" aria-hidden="true"></div>
       </div>
     </div>
   </section>
@@ -168,99 +430,164 @@
   <!-- ============== SKILLS ============== -->
   <section id="skills" class="section section--alt">
     <div class="container">
-      <p class="section__eyebrow" data-reveal>Skills</p>
-      <h2 class="section__title" data-reveal>Technical Skills</h2>
-      <p class="section__sub" data-reveal>Cloud first. AI / LLMOps second. Then containers, IaC, observability, data, security, and the rest.</p>
+      <p class="section__eyebrow" data-reveal>03 — Skills</p>
+      <h2 class="section__title" data-reveal>What I'm best at</h2>
+      <p class="section__sub" data-reveal>Four capabilities I'm hired for. The full tool list lives below, collapsed by default.</p>
 
-      <div class="skills">
+      <!-- Container query host: pillars re-flow based on this wrapper, not the viewport -->
+      <div class="pillars-wrap">
+      <div class="pillars">
 
-        <article class="skill" data-reveal>
-          <div class="skill__icon" aria-hidden="true">☁️</div>
-          <h3>Cloud (AWS)</h3>
-          <p>EC2, EKS, ECS, Fargate, Lambda, RDS / Aurora (PostgreSQL, MySQL), Aurora Serverless v2, Aurora DSQL, DynamoDB, ElastiCache, S3, EBS, ECR, IAM, KMS, SSM, VPC, ALB / NLB, Route&nbsp;53, API Gateway, Auto Scaling, Step Functions, EventBridge, SNS, SQS, MSK (Managed Kafka), AWS MQ, Athena, Glue, Kinesis, Firehose, CloudWatch, CloudTrail, AWS Backup, AWS Config, AWS Organizations, AWS Control Tower, AWS Inspector, Secrets Manager, WAF, GuardDuty, Security Hub, Cross-Account IAM, CloudShell, Cost Explorer, Compute Optimizer, Trusted Advisor.</p>
+        <article class="pillar" data-reveal>
+          <div class="pillar__num">01</div>
+          <div class="pillar__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v6c0 5 4 8.5 9 9 5-.5 9-4 9-9V7l-9-5z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <h3>Multi-tenant reliability</h3>
+          <p>Running Alfresco + Nuxeo SaaS for Fortune-500 customers across 165+ AWS environments and 32 Nuxeo tenants. Blue-green PTM upgrades on Kubernetes, Solr shard-lag gating, ASG topology and ALB session stickiness, Hazelcast cluster-split recovery.</p>
+          <p class="pillar__stack"><strong>Stack:</strong> AWS · EKS · Terraform · Aurora · Solr · Hazelcast · ActiveMQ · Kafka (MSK)</p>
         </article>
 
-        <article class="skill" data-reveal>
-          <div class="skill__icon" aria-hidden="true">✦</div>
-          <h3>AI-Augmented Operations / LLMOps</h3>
-          <p>Claude Code, ChatGPT (Codex), GitHub Copilot, Google Gemini, DeepSeek, Perplexity, AWS Bedrock, MCP (Model Context Protocol), Hugging Face; AI-driven RCA generation, hook-based agent guardrails, MCP integrations with Datadog, PagerDuty, Atlassian, PaaS; prompt-engineered investigation pipelines.</p>
+        <article class="pillar" data-reveal>
+          <div class="pillar__num">02</div>
+          <div class="pillar__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          </div>
+          <h3>JVM &amp; DB forensics</h3>
+          <p>Bytecode-level RCAs with <code>javap</code> through Spring transaction internals. Aurora PostgreSQL / MySQL EXPLAIN tuning, parameter-group hardening, blue-green engine upgrades, plus a parallel diagnostic that cut fleet triage from ~80&nbsp;m to 1&nbsp;m&nbsp;34&nbsp;s.</p>
+          <p class="pillar__stack"><strong>Stack:</strong> Java · javap · Spring · Aurora · pgBadger · pg_stat_statements · Python</p>
         </article>
 
-        <article class="skill" data-reveal>
-          <div class="skill__icon" aria-hidden="true">⎈</div>
-          <h3>Containers &amp; Orchestration</h3>
-          <p>Kubernetes, Amazon EKS, Docker, Helm, Kustomize, ArgoCD, Argo Workflows, OpenShift, Rancher, Istio, NGINX Ingress, Traefik, Cert-Manager, External-DNS, External Secrets, Sealed Secrets, Lens, k9s, RBAC, HPA; blue-green and canary deployments, GitOps; familiar with AKS, GKE.</p>
+        <article class="pillar" data-reveal>
+          <div class="pillar__num">03</div>
+          <div class="pillar__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-6"/></svg>
+          </div>
+          <h3>Observability &amp; incident response</h3>
+          <p>Owner of the 24×7 PagerDuty rotation. Datadog monitors, dashboards, and SLOs for Tomcat threads, DB ACUs, Solr remaining-TX, customer exception tracking, and ALB IP rotation. Word-format RCAs with reproducible evidence, runbook authoring, blast-radius control.</p>
+          <p class="pillar__stack"><strong>Stack:</strong> Datadog · PagerDuty · OpenTelemetry · Grafana · Splunk · CloudWatch</p>
         </article>
 
-        <article class="skill" data-reveal>
-          <div class="skill__icon" aria-hidden="true">⛁</div>
-          <h3>Infrastructure as Code</h3>
-          <p>Terraform, Terragrunt, Terraform Cloud / Enterprise, Atlantis, Spacelift, Pulumi, AWS CDK, CloudFormation, Ansible, Puppet, Chef; Bash, Python, Shell; policy-driven change workflows.</p>
-        </article>
-
-        <article class="skill" data-reveal>
-          <div class="skill__icon" aria-hidden="true">⟳</div>
-          <h3>CI / CD &amp; Release</h3>
-          <p>Jenkins, GitLab CI / CD, GitHub Actions, AWS CodePipeline, Azure DevOps, Harness, Argo Workflows, JFrog Artifactory, Nexus Repository, Maven, Gradle, Git, Bitbucket; artifact promotion, deployment gates, rollback readiness.</p>
-        </article>
-
-        <article class="skill" data-reveal>
-          <div class="skill__icon" aria-hidden="true">📈</div>
-          <h3>Observability &amp; Incident Response</h3>
-          <p>Datadog, PagerDuty, Prometheus, Grafana, Loki, CloudWatch, ELK, Splunk, Dynatrace, New Relic, OpenTelemetry, Fluentd, Fluent Bit, Vector, Logstash, Beats, Statuspage, UptimeRobot; APM, traces, RUM, synthetics, SLI / SLO, MTTR, RCA, post-mortems.</p>
-        </article>
-
-        <article class="skill" data-reveal>
-          <div class="skill__icon" aria-hidden="true">⛃</div>
-          <h3>Databases &amp; Data</h3>
-          <p>Aurora PostgreSQL, Aurora Serverless v2, Aurora DSQL, PostgreSQL, MySQL, MariaDB, DynamoDB, MongoDB, Cassandra, Redis, ElastiCache, etcd, Memcached, OpenSearch, Solr, Hazelcast, ActiveMQ, Kafka, MSK, RabbitMQ, Athena, Glue, Kinesis, Firehose; query tuning, EXPLAIN plans, index audits, parameter-group hardening, blue-green engine upgrades.</p>
-        </article>
-
-        <article class="skill" data-reveal>
-          <div class="skill__icon" aria-hidden="true">🛡️</div>
-          <h3>Security &amp; DevSecOps</h3>
-          <p>IAM least-privilege, KMS, HashiCorp Vault, Azure Key Vault, SonarQube, Fortify, SAST, DAST; secrets management, audit logging, log4j2 hardening, OpenSSF Scorecard.</p>
-        </article>
-
-        <article class="skill" data-reveal>
-          <div class="skill__icon" aria-hidden="true">⌬</div>
-          <h3>Networking &amp; Edge</h3>
-          <p>VPC, ALB / NLB, Route 53, CloudFront, CloudFront Functions, Lambda@Edge, Cloudflare, Akamai, OpenVPN, Site-to-Site VPN, AWS Direct Connect, Transit Gateway, PrivateLink; security groups, NACLs, ALB session stickiness, ALB IP rotation.</p>
-        </article>
-
-        <article class="skill" data-reveal>
-          <div class="skill__icon" aria-hidden="true">🛎️</div>
-          <h3>Service Management &amp; Collaboration</h3>
-          <p>PagerDuty, ServiceNow, Jira, Confluence, Salesforce, Slack workflows, Microsoft Teams; incident response, change management, customer escalation, runbook authoring.</p>
-        </article>
-
-        <article class="skill" data-reveal>
-          <div class="skill__icon" aria-hidden="true">⌨</div>
-          <h3>Programming &amp; Scripting</h3>
-          <p>Python (boto3, python-docx), Bash / Zsh, SQL, YAML, JSON, HCL, Groovy, jq, yq, Java (read-level, bytecode / javap forensics).</p>
-        </article>
-
-        <article class="skill" data-reveal>
-          <div class="skill__icon" aria-hidden="true">🌐</div>
-          <h3>Multi-Cloud</h3>
-          <p>Azure (AKS, Azure DevOps, Key Vault, Container Instances) and GCP (GKE, Compute Engine, Cloud Storage, Cloud IAM) for cross-cloud operations.</p>
-        </article>
-
-        <article class="skill" data-reveal>
-          <div class="skill__icon" aria-hidden="true">⚙</div>
-          <h3>Practices</h3>
-          <p>Cost Optimization (FinOps), Performance Engineering (JMeter, k6), Postgres / MySQL Performance Tuning, JVM Bytecode Forensics, Capacity Planning, Disaster Recovery, Change Management, Customer Escalation Communication.</p>
+        <article class="pillar" data-reveal>
+          <div class="pillar__num">04</div>
+          <div class="pillar__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.36.18.62.5.74.87.12.37.1.78-.07 1.13H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </div>
+          <h3>Platform automation</h3>
+          <p>Investigation pipelines that classify the entry path and correlate evidence across PagerDuty, Datadog, Jira, AWS, EKS, DB, and Solr. Three-tier guardrails (auto-allow / ask / deny) with secret redaction, PII exfil detection, and audit logging, built on 9 cooperating Python and Bash hooks.</p>
+          <p class="pillar__stack"><strong>Stack:</strong> Terraform · Python · Bash · GitHub Actions · Jenkins · MCP · Claude Code</p>
         </article>
 
       </div>
+      </div><!-- /.pillars-wrap -->
+
+      <!-- Auto-scrolling tech ribbon — visual rhythm + scannable keyword surface -->
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee__track">
+          <span>AWS</span><span>EKS</span><span>Terraform</span><span>Kubernetes</span><span>Datadog</span><span>PagerDuty</span><span>Aurora</span><span>Solr</span><span>Hazelcast</span><span>Kafka / MSK</span><span>ActiveMQ</span><span>Python</span><span>Bash</span><span>Java / javap</span><span>Spring</span><span>Helm</span><span>ArgoCD</span><span>Prometheus</span><span>Grafana</span><span>OpenTelemetry</span><span>Jenkins</span><span>GitHub Actions</span>
+          <!-- Track is duplicated so the loop is seamless -->
+          <span>AWS</span><span>EKS</span><span>Terraform</span><span>Kubernetes</span><span>Datadog</span><span>PagerDuty</span><span>Aurora</span><span>Solr</span><span>Hazelcast</span><span>Kafka / MSK</span><span>ActiveMQ</span><span>Python</span><span>Bash</span><span>Java / javap</span><span>Spring</span><span>Helm</span><span>ArgoCD</span><span>Prometheus</span><span>Grafana</span><span>OpenTelemetry</span><span>Jenkins</span><span>GitHub Actions</span>
+        </div>
+      </div>
+
+      <details class="stack" data-reveal>
+        <summary>
+          <span class="stack__open">Show full stack inventory</span>
+          <span class="stack__close">Hide full stack inventory</span>
+          <svg class="stack__chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </summary>
+
+        <div class="stack__grid">
+          <div class="stack__group">
+            <h4>Cloud (AWS)</h4>
+            <p>EC2, EKS, ECS, Fargate, Lambda, RDS / Aurora (PostgreSQL, MySQL), Aurora Serverless v2, Aurora DSQL, DynamoDB, ElastiCache, S3, EBS, ECR, IAM, KMS, SSM, VPC, ALB / NLB, Route&nbsp;53, API Gateway, Auto Scaling, Step Functions, EventBridge, SNS, SQS, MSK, AWS MQ, Athena, Glue, Kinesis, Firehose, CloudWatch, CloudTrail, AWS Backup, AWS Config, AWS Organizations, Control Tower, Inspector, Secrets Manager, WAF, GuardDuty, Security Hub, Cross-Account IAM, Cost Explorer, Compute Optimizer, Trusted Advisor.</p>
+          </div>
+          <div class="stack__group">
+            <h4>AI-Augmented Operations / LLMOps</h4>
+            <p>Claude Code, ChatGPT (Codex), GitHub Copilot, Google Gemini, DeepSeek, Perplexity, AWS Bedrock, MCP (Model Context Protocol), Hugging Face — AI-driven RCA generation, hook-based agent guardrails, MCP integrations with Datadog / PagerDuty / Atlassian / PaaS, prompt-engineered investigation pipelines.</p>
+          </div>
+          <div class="stack__group">
+            <h4>Containers &amp; Orchestration</h4>
+            <p>Kubernetes, EKS, Docker, Helm, Kustomize, ArgoCD, Argo Workflows, OpenShift, Rancher, Istio, NGINX Ingress, Traefik, Cert-Manager, External-DNS, External Secrets, Sealed Secrets, Lens, k9s, RBAC, HPA — blue-green and canary deploys, GitOps. Familiar with AKS, GKE.</p>
+          </div>
+          <div class="stack__group">
+            <h4>Infrastructure as Code</h4>
+            <p>Terraform, Terragrunt, Terraform Cloud / Enterprise, Atlantis, Spacelift, Pulumi, AWS CDK, CloudFormation, Ansible, Puppet, Chef — policy-driven change workflows.</p>
+          </div>
+          <div class="stack__group">
+            <h4>CI / CD &amp; Release</h4>
+            <p>Jenkins, GitLab CI / CD, GitHub Actions, AWS CodePipeline, Azure DevOps, Harness, Argo Workflows, JFrog Artifactory, Nexus, Maven, Gradle, Git, Bitbucket — artifact promotion, deployment gates, rollback readiness.</p>
+          </div>
+          <div class="stack__group">
+            <h4>Observability</h4>
+            <p>Datadog, PagerDuty, Prometheus, Grafana, Loki, CloudWatch, ELK, Splunk, Dynatrace, New Relic, OpenTelemetry, Fluentd, Fluent Bit, Vector, Logstash, Beats, Statuspage — APM, traces, RUM, synthetics, SLI / SLO, MTTR, post-mortems.</p>
+          </div>
+          <div class="stack__group">
+            <h4>Databases &amp; Data</h4>
+            <p>Aurora PostgreSQL, Aurora Serverless v2, Aurora DSQL, PostgreSQL, MySQL, MariaDB, DynamoDB, MongoDB, Cassandra, Redis, ElastiCache, etcd, Memcached, OpenSearch, Solr, Hazelcast, ActiveMQ, Kafka, MSK, RabbitMQ, Athena, Glue, Kinesis, Firehose — query tuning, EXPLAIN plans, index audits, parameter-group hardening, blue-green engine upgrades.</p>
+          </div>
+          <div class="stack__group">
+            <h4>Security &amp; DevSecOps</h4>
+            <p>IAM least-privilege, KMS, HashiCorp Vault, Azure Key Vault, SonarQube, Fortify, SAST, DAST — secrets management, audit logging, log4j2 hardening, OpenSSF Scorecard.</p>
+          </div>
+          <div class="stack__group">
+            <h4>Networking &amp; Edge</h4>
+            <p>VPC, ALB / NLB, Route&nbsp;53, CloudFront, CloudFront Functions, Lambda@Edge, Cloudflare, Akamai, OpenVPN, Site-to-Site VPN, AWS Direct Connect, Transit Gateway, PrivateLink — security groups, NACLs, ALB session stickiness, ALB IP rotation.</p>
+          </div>
+          <div class="stack__group">
+            <h4>Service Mgmt &amp; Collaboration</h4>
+            <p>PagerDuty, ServiceNow, Jira, Confluence, Salesforce, Slack workflows, Microsoft Teams — incident response, change management, customer escalation, runbook authoring.</p>
+          </div>
+          <div class="stack__group">
+            <h4>Programming &amp; Scripting</h4>
+            <p>Python (boto3, python-docx), Bash / Zsh, SQL, YAML, JSON, HCL, Groovy, jq, yq, Java (read-level, bytecode / javap forensics).</p>
+          </div>
+          <div class="stack__group">
+            <h4>Multi-Cloud</h4>
+            <p>Azure (AKS, Azure DevOps, Key Vault, Container Instances) and GCP (GKE, Compute Engine, Cloud Storage, Cloud IAM) for cross-cloud operations.</p>
+          </div>
+          <div class="stack__group">
+            <h4>Practices</h4>
+            <p>Cost Optimization (FinOps), Performance Engineering (JMeter, k6), Postgres / MySQL tuning, JVM bytecode forensics, capacity planning, disaster recovery, change management, customer escalation communication.</p>
+          </div>
+        </div>
+      </details>
     </div>
   </section>
 
   <!-- ============== EXPERIENCE ============== -->
   <section id="experience" class="section">
     <div class="container">
-      <p class="section__eyebrow" data-reveal>Experience</p>
-      <h2 class="section__title" data-reveal>Experience</h2>
+      <p class="section__eyebrow" data-reveal>04 — Experience</p>
+      <div class="exp-head">
+        <h2 class="section__title" data-reveal>Experience</h2>
+        <!-- v2 #11 deploys-this-week sparkline -->
+        <div class="sparkline" data-reveal aria-label="Deploys this week — synthetic">
+          <span class="sparkline__lab">Deploys this week</span>
+          <svg viewBox="0 0 80 24" width="100" height="28" aria-hidden="true">
+            <polyline class="sparkline__line"
+              fill="none" stroke="currentColor" stroke-width="1.6"
+              stroke-linejoin="round" stroke-linecap="round"
+              points="2,18 12,12 22,15 32,8 42,11 52,5 62,9 72,3 78,6"/>
+            <circle class="sparkline__dot" cx="78" cy="6" r="2.4"/>
+          </svg>
+          <span class="sparkline__num">+9</span>
+        </div>
+      </div>
+
+      <!-- v2 #20 MTTR before/after comparison slider -->
+      <div class="compare" data-reveal aria-label="MTTR before / after">
+        <div class="compare__row">
+          <span class="compare__lab compare__lab--before"><strong>Before</strong> MTTR · 47&nbsp;min</span>
+          <span class="compare__lab compare__lab--after"><strong>After</strong> MTTR · 12&nbsp;min</span>
+        </div>
+        <div class="compare__track" id="cmpTrack">
+          <div class="compare__bar compare__bar--full"><span></span></div>
+          <div class="compare__bar compare__bar--cut" id="cmpCut"><span></span></div>
+          <button class="compare__handle" id="cmpHandle" type="button" aria-label="Drag to compare" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" role="slider" tabindex="0"></button>
+        </div>
+        <p class="compare__note">Drag — same incident class, before vs. after the parallel diagnostic harness shipped (Q3 2024).</p>
+      </div>
 
       <div class="timeline">
 
@@ -276,18 +603,35 @@
                 <span class="job__dates-dot"></span> Jan 2024 – Present
               </span>
             </header>
+            <aside class="job__feature">
+              <p class="job__feature-eyebrow">Selected work · JVM-level RCA</p>
+              <h4 class="job__feature-title">147,513 duplicate documents — traced through bytecode</h4>
+              <p>
+                A customer incident produced ~147,513 duplicate documents.
+                I disassembled the bytecode with <code>javap</code> and traced
+                a <code>StringIndexOutOfBoundsException</code> through Spring's
+                <code>beforeCommit</code> hook into Alfresco's
+                <code>RetryingTransactionHelper</code> retry loop. Proved the
+                defect was customer-owned and published a 13-section RCA with
+                evidence anyone could reproduce.
+              </p>
+              <p class="job__feature-meta">
+                <span><strong>Stack</strong> Java · javap · Spring · Alfresco</span>
+                <span><strong>Output</strong> 13-section RCA · code-level fix proposal</span>
+              </p>
+              <button type="button" class="job__feature-cta" popovertarget="rcaModal" aria-haspopup="dialog">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                View bytecode trace
+              </button>
+            </aside>
+
             <ul class="job__bullets">
-              <li><strong>JVM-Level RCA in Production</strong> — Diagnosed a customer incident producing ~147,513 duplicate documents through bytecode disassembly with <code>javap</code>; traced a <code>StringIndexOutOfBoundsException</code> through Spring's <code>beforeCommit</code> hook into Alfresco's <code>RetryingTransactionHelper</code> retry loop, proved the defect was customer-owned, and published a 13-section RCA with verifiable evidence.</li>
-              <li><strong>50× Faster Fleet Diagnostics</strong> — Designed a parallel database-diagnostic harness (Python + <code>xargs -P 8</code>) running 9 health queries across 14 environments concurrently — ~80&nbsp;minutes down to 1&nbsp;minute&nbsp;34&nbsp;seconds, enabling same-day root-cause work on platform-wide performance issues.</li>
-              <li><strong>Blue-Green PTM Upgrades</strong> — Authored and execute the canonical 4-hour blue-green PTM (Platform Tech Maintenance) runbook for sharded production: AMI promotion, ASG re-scale (ingestion 7→1→7, repo 5→3→5), Solr shard-lag gating (&lt;&nbsp;5k pending TX), JMeter cache warm-up, and post-swap validation against Digital Workspace, Repo, and Share APIs.</li>
-              <li><strong>Platform Operations at Scale</strong> — Operate multi-tenant Alfresco Cloud PaaS and Nuxeo Cloud on AWS across 165+ customer environments, 32 Nuxeo tenants, multiple AWS accounts, and multiple regions in production; Fortune-500 customers across financial services, automotive, consumer goods, and insurance.</li>
-              <li><strong>Stateful Middleware Tuning</strong> — Diagnosed and resolved Hazelcast cluster-split and ActiveMQ backlog issues by aligning ASG topology, scaling profiles, and IMap synchronization patterns — preventing token-replication failures (401 storms) and ALB session-stickiness regressions that affect customer logins.</li>
-              <li><strong>Pre-Upgrade Verification Engine</strong> — Engineered a one-shot pre-flight gate validating RDS snapshot freshness (&lt;&nbsp;24h), Solr shard health, DB locks, active PagerDuty incidents, monitor state, and ASG scale-in protection — returning a <code>GO / WAIT / STOP</code> verdict before any production swap.</li>
-              <li><strong>Investigation Automation</strong> — Built an end-to-end investigation engine that classifies the entry path (PD ticket / Jira / env / customer feature / silent), correlates evidence across PagerDuty, Datadog, Jira, Confluence, AWS, EKS, DB, and Solr, and produces Word-format RCAs.</li>
-              <li><strong>Custom Toolset</strong> — Built a shell-based personal toolset (db query, env introspection, SSM session, ASG inspect / rotate, Solr summary, batch-clone) automating env-to-account resolution, cross-account role assumption, container-aware execution, and batch Git operations across 580+ AWS CodeCommit repositories.</li>
-              <li><strong>Defense-in-Depth Guardrails</strong> — Architected a hook-based three-tier command policy (auto-allow / ask / deny) with secret-pattern redaction, PII exfiltration detection, AWS profile separation, and audit logging — implemented in 9 cooperating Python and Bash hooks.</li>
-              <li><strong>Observability &amp; DevSecOps</strong> — Authored Datadog monitors, dashboards, and SLOs for Tomcat threads, DB ACUs, Solr remaining-TX, customer exception tracking, and ALB IP rotation; standardized monitor messaging, IAM least-privilege, KMS encryption, and controlled release windows.</li>
-              <li><strong>24×7 On-Call Ownership</strong> — Own the 24×7 SRE rotation on PagerDuty: alert triage, customer escalation, RCA, post-mortems, runbook authoring, blast-radius control, and change-management gating.</li>
+              <li data-year="2025"><strong>50× faster fleet diagnostics.</strong> Wrote a parallel DB-diagnostic harness in Python with <code>xargs -P 8</code> that fans 9 health queries across 14 environments at once. Triage time: ~80 minutes → 1 minute 34 seconds. Same-day root-cause work on platform-wide performance issues became possible.</li>
+              <li data-year="2025"><strong>Blue-green PTM upgrades.</strong> Author and execute the 4-hour blue-green runbook for sharded production: AMI promotion, ASG re-scale (ingestion 7→1→7, repo 5→3→5), Solr shard-lag gating below 5k pending TX, JMeter cache warm-up, post-swap validation against Digital Workspace, Repo, and Share APIs.</li>
+              <li data-year="2025"><strong>Pre-upgrade verification.</strong> Built a one-shot pre-flight gate that validates RDS snapshot freshness (&lt; 24h), Solr shard health, DB locks, active PagerDuty incidents, monitor state, and ASG scale-in protection. Returns a <code>GO / WAIT / STOP</code> verdict before any production swap.</li>
+              <li data-year="2024"><strong>Stateful middleware tuning.</strong> Diagnosed Hazelcast cluster-splits and ActiveMQ backlogs by aligning ASG topology, scaling profiles, and IMap sync patterns. Prevented token-replication failures (401 storms) and ALB session-stickiness regressions that broke customer logins.</li>
+              <li data-year="2026"><strong>Defense-in-depth guardrails.</strong> Built a three-tier command policy (auto-allow / ask / deny) on top of 9 cooperating Python and Bash hooks. Adds secret-pattern redaction, PII exfil detection, AWS profile separation, and audit logging across the engineer toolchain.</li>
+              <li data-year="ongoing"><strong>24×7 on-call ownership.</strong> Own the SRE rotation on PagerDuty for Alfresco + Nuxeo SaaS: alert triage, customer escalation, RCA writing, post-mortems, runbook authoring, blast-radius control, change-management gating.</li>
             </ul>
           </div>
         </article>
@@ -303,11 +647,11 @@
               <span class="job__dates">Jan 2022 – Dec 2023</span>
             </header>
             <ul class="job__bullets">
-              <li><strong>Fintech Platform Operations</strong> — Operated digital-lending, open-banking, capital-markets, loan-origination, data-pipeline, and API platforms in production across regulated banking and pension-fund workloads.</li>
-              <li><strong>CI / CD &amp; Release</strong> — Designed and maintained Jenkins and GitLab CI / CD pipelines for 20+ microservices across dev, staging, UAT, and production — with artifact promotion gates, environment-aware deploys, and rollback playbooks.</li>
-              <li><strong>Cloud Infrastructure</strong> — Operated AWS infrastructure for ~10 customer environments using Kubernetes, Docker, Terraform, and Ansible — parameterized modules cut typical environment-creation effort from days to hours.</li>
-              <li><strong>AWS Service Footprint</strong> — Deployed and operated EC2, VPC, ALB, RDS, S3, ECR, ECS, CloudFront, Route 53, and IAM in production across multiple customer AWS accounts — Terraform / Ansible-driven, with reusable modules shared across 5+ engagements.</li>
-              <li><strong>Production Reliability</strong> — Triaged deploy failures and infrastructure incidents across 15+ services in 4 envs (dev / staging / UAT / prod); cut release-related rollbacks by tightening pipeline gates and adding pre-deploy health checks.</li>
+              <li data-year="2022"><strong>Fintech Platform Operations</strong> — Operated digital-lending, open-banking, capital-markets, loan-origination, data-pipeline, and API platforms in production across regulated banking and pension-fund workloads.</li>
+              <li data-year="2022"><strong>CI / CD &amp; Release</strong> — Designed and maintained Jenkins and GitLab CI / CD pipelines for 20+ microservices across dev, staging, UAT, and production — with artifact promotion gates, environment-aware deploys, and rollback playbooks.</li>
+              <li data-year="2023"><strong>Cloud Infrastructure</strong> — Operated AWS infrastructure for ~10 customer environments using Kubernetes, Docker, Terraform, and Ansible — parameterized modules cut typical environment-creation effort from days to hours.</li>
+              <li data-year="2023"><strong>AWS Service Footprint</strong> — Deployed and operated EC2, VPC, ALB, RDS, S3, ECR, ECS, CloudFront, Route 53, and IAM in production across multiple customer AWS accounts — Terraform / Ansible-driven, with reusable modules shared across 5+ engagements.</li>
+              <li data-year="2023"><strong>Production Reliability</strong> — Triaged deploy failures and infrastructure incidents across 15+ services in 4 envs (dev / staging / UAT / prod); cut release-related rollbacks by tightening pipeline gates and adding pre-deploy health checks.</li>
             </ul>
           </div>
         </article>
@@ -323,9 +667,9 @@
               <span class="job__dates">Jan 2021 – Dec 2021</span>
             </header>
             <ul class="job__bullets">
-              <li><strong>Multi-Cloud Operations</strong> — Operated managed-cloud and DevOps engagements for SaaS, EdTech, and financial-research customers across AWS, Azure, and GCP in production.</li>
-              <li><strong>CI / CD &amp; Automation</strong> — Built CI / CD pipelines (Jenkins + GitLab + GitHub Actions) for containerized workloads on EKS / GKE — automated provisioning via Terraform, image scanning, and zero-downtime rolling updates.</li>
-              <li><strong>Cost Optimization (FinOps)</strong> — Led cloud-cost optimization (FinOps) reviews on AWS and GCP — right-sizing, reserved capacity, idle-resource cleanup — supporting customers with multi-million-dollar annual cloud spend.</li>
+              <li data-year="2021"><strong>Multi-Cloud Operations</strong> — Operated managed-cloud and DevOps engagements for SaaS, EdTech, and financial-research customers across AWS, Azure, and GCP in production.</li>
+              <li data-year="2021"><strong>CI / CD &amp; Automation</strong> — Built CI / CD pipelines (Jenkins + GitLab + GitHub Actions) for containerized workloads on EKS / GKE — automated provisioning via Terraform, image scanning, and zero-downtime rolling updates.</li>
+              <li data-year="2021"><strong>Cost Optimization (FinOps)</strong> — Led cloud-cost optimization (FinOps) reviews on AWS and GCP — right-sizing, reserved capacity, idle-resource cleanup — supporting customers with multi-million-dollar annual cloud spend.</li>
             </ul>
           </div>
         </article>
@@ -338,14 +682,48 @@
         WebNMobile (Nagpur, May – Jun 2018) — Java, Python, C++, Git, Linux,
         APIs, SDLC workflows.
       </p>
+
+      <!-- Incident-activity heatmap — generated client-side by JS -->
+      <div class="heatmap" data-reveal>
+        <div class="heatmap__head">
+          <span><strong>On-call calendar</strong> · last 52 weeks</span>
+          <span class="heatmap__sub">customer-impacting incidents owned</span>
+        </div>
+
+        <!-- Stat chips: derived from the same seeded data so they stay in sync -->
+        <div class="heatmap__stats" id="heatmapStats" aria-hidden="true"></div>
+
+        <!-- Storm markers strip (one mark per storm week, aligned to grid columns) -->
+        <div class="heatmap__storms" id="heatmapStorms" aria-hidden="true"></div>
+
+        <!-- Body = day-of-week labels + grid + month axis -->
+        <div class="heatmap__body">
+          <div class="heatmap__days" aria-hidden="true">
+            <span></span><span>Mon</span><span></span><span>Wed</span>
+            <span></span><span>Fri</span><span></span>
+          </div>
+          <div class="heatmap__grid-wrap">
+            <div class="heatmap__grid" id="heatmapGrid" aria-hidden="true"></div>
+            <div class="heatmap__months" id="heatmapMonths" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <!-- Legend + key facts row -->
+        <div class="heatmap__footer">
+          <p class="heatmap__legend">
+            <span>less</span><i></i><i></i><i></i><i></i><i></i><span>more</span>
+          </p>
+          <p class="heatmap__keys" id="heatmapKeys" aria-hidden="true"></p>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- ============== PROJECTS ============== -->
   <section id="projects" class="section section--alt">
     <div class="container">
-      <p class="section__eyebrow" data-reveal>Selected projects</p>
-      <h2 class="section__title" data-reveal>Projects</h2>
+      <p class="section__eyebrow" data-reveal>05 — Projects</p>
+      <h2 class="section__title" data-reveal>Selected projects</h2>
 
       <div class="projects">
         <article class="project" data-reveal>
@@ -377,7 +755,7 @@
     <div class="container two-col">
 
       <div data-reveal>
-        <p class="section__eyebrow">Education</p>
+        <p class="section__eyebrow">06 — Education</p>
         <h2 class="section__title">Education</h2>
         <ul class="plain-list">
           <li>
@@ -400,7 +778,7 @@
       </div>
 
       <div data-reveal>
-        <p class="section__eyebrow">Certifications</p>
+        <p class="section__eyebrow">06 — Certifications</p>
         <h2 class="section__title">Certifications</h2>
         <ul class="plain-list">
           <li><strong>HashiCorp Certified: Terraform Associate</strong><span>Jul 2022</span></li>
@@ -416,11 +794,12 @@
   <!-- ============== CONTACT ============== -->
   <section id="contact" class="section section--contact">
     <div class="container contact" data-reveal>
-      <p class="section__eyebrow">Get in touch</p>
-      <h2 class="section__title">Contact</h2>
+      <p class="section__eyebrow">07 — Contact</p>
+      <h2 class="section__title">Get in touch</h2>
       <p class="section__lead">
-        Open to senior SRE / DevOps / Platform-Engineering roles.
-        Relocation OK. Best reach is LinkedIn; direct email is available in the resume PDF.
+        Open to senior SRE, DevOps, or Platform Engineering roles. Happy to
+        relocate. LinkedIn is the fastest way to reach me; my email is in
+        the resume PDF.
       </p>
       <div class="contact__buttons">
         <a class="btn btn--primary" href="https://www.linkedin.com/in/anish-kumar-sre-devops" target="_blank" rel="noopener">
@@ -439,12 +818,42 @@
     </div>
   </section>
 
+  <!-- ============== RCA MODAL POPOVER ============== -->
+  <!-- Native popover with backdrop. Browser handles focus + Escape dismiss. -->
+  <div popover id="rcaModal" class="rca-modal" role="dialog" aria-labelledby="rcaTitle">
+    <header class="rca-modal__head">
+      <span class="rca-modal__title" id="rcaTitle">
+        <strong>RCA-2024-Q4</strong> · <code>StringIndexOutOfBoundsException</code>
+      </span>
+      <button class="icon-btn" type="button" popovertarget="rcaModal" popovertargetaction="hide" aria-label="Close" title="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </header>
+    <div class="rca-modal__body">
+<pre class="rca-modal__code" tabindex="0"><span class="c">// javap -p -c -v org.springframework.transaction.support.TransactionSynchronizationUtils</span>
+<span class="k">at</span> org.springframework.transaction.support.<span class="k">TransactionSynchronizationUtils</span>
+   .triggerBeforeCommit(TransactionSynchronizationUtils.java:81)
+<span class="k">at</span> org.alfresco.repo.transaction.<span class="k">RetryingTransactionHelper</span>
+   .doInTransaction(RetryingTransactionHelper.java:489)
+
+<span class="e">java.lang.StringIndexOutOfBoundsException: begin 0, end -1, length 7</span>
+   <span class="k">at</span> java.base/java.lang.String.checkBoundsBeginEnd(String.java:<span class="s">4604</span>)
+   <span class="k">at</span> java.base/java.lang.String.substring(String.java:<span class="s">2706</span>)
+   <span class="k">at</span> com.customer.audit.<span class="e">AuditNodeRefHasher</span>.hash(AuditNodeRefHasher.java:<span class="s">42</span>)
+
+<span class="c">// Retry loop swallows the exception, rolls back, then commits the txn anyway.</span>
+<span class="c">// Net effect: 147,513 duplicate documents over 18h before alarm fired.</span>
+<span class="c">// Fix proposal: bound-check substring(0, refLen-1) before invocation,</span>
+<span class="c">// fail fast on retry, do NOT swallow.</span></pre>
+    </div>
+  </div>
+
 </main>
 
 <footer class="footer">
   <div class="container footer__inner">
-    <p>© <span id="year">2026</span> Anish Saji Kumar · Hand-built with HTML, CSS, and patience.</p>
-    <p class="footer__sub">Privacy-friendly analytics. No cookies. Hosted on GitHub Pages.</p>
+    <p>© <span id="year">2026</span> Anish Saji Kumar · Hand-built. No frameworks, no trackers, no nonsense.</p>
+    <p class="footer__sub">Privacy-friendly analytics · No cookies · Hosted on GitHub Pages</p>
   </div>
 </footer>
 

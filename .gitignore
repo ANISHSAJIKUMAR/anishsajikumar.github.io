@@ -14,3 +14,8 @@
 # Local-only
 *.local
 *.scratch.txt
+
+# Local-only review artifacts (screenshots, scratch dirs)
+.preview-*.png
+.review/
+_review/
