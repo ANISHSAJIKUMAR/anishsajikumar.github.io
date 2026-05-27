@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0b1220" />
+
+<title>Anish Saji Kumar — Site Reliability / DevOps Engineer</title>
+<meta name="description" content="Site Reliability and DevOps Engineer running multi-tenant SaaS on AWS for 165+ Fortune-500 customer environments. Kubernetes, Terraform, Datadog, PagerDuty, blue-green upgrades." />
+<meta name="author" content="Anish Saji Kumar" />
+
+<!-- Social cards on LinkedIn / Slack / Teams use these -->
+<meta property="og:title" content="Anish Saji Kumar — SRE / DevOps Engineer" />
+<meta property="og:description" content="Multi-tenant SaaS reliability across 165+ AWS environments. Kubernetes, Terraform, Datadog, blue-green upgrades, JVM-level RCAs." />
+<meta property="og:type" content="profile" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1220'/%3E%3Ctext x='50%25' y='58%25' font-family='Inter,Helvetica,Arial,sans-serif' font-size='32' font-weight='800' text-anchor='middle' fill='%23d4a373'%3EA%3C/text%3E%3C/svg%3E" />
+
+<!-- Inter for prose, JetBrains Mono for tabular numbers -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+
+<link rel="stylesheet" href="assets/style.css" />
+</head>
+
+<body>
+
+<!-- Skip link for keyboard / screen-reader users -->
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- Animated background mesh — pure CSS, GPU-friendly -->
+<div class="bg-mesh" aria-hidden="true">
+  <div class="bg-mesh__blob bg-mesh__blob--1"></div>
+  <div class="bg-mesh__blob bg-mesh__blob--2"></div>
+  <div class="bg-mesh__blob bg-mesh__blob--3"></div>
+</div>
+
+<!-- Top navigation -->
+<header class="nav" role="banner">
+  <div class="container nav__inner">
+    <a class="nav__brand" href="#top" aria-label="Back to top">
+      <span class="nav__mark">A</span>
+      <span class="nav__name">Anish&nbsp;Saji&nbsp;Kumar</span>
+    </a>
+    <nav class="nav__links" aria-label="Section navigation">
+      <a href="#about">About</a>
+      <a href="#metrics">Impact</a>
+      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark / light">
+      <svg class="theme-toggle__sun"  width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="theme-toggle__moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============== HERO ============== -->
+  <section id="top" class="hero">
+    <div class="container hero__inner">
+
+      <span class="hero__pill">
+        <span class="hero__pill-dot"></span>
+        Available for senior SRE / DevOps roles
+      </span>
+
+      <p class="hero__kicker">MULTI-TENANT SAAS · 165+ AWS ENVIRONMENTS · FORTUNE-500 CUSTOMERS</p>
+
+      <h1 class="hero__name">
+        Anish <span class="hero__name-accent">Saji</span> Kumar
+      </h1>
+
+      <p class="hero__title">
+        <span>DevOps Engineer</span>
+        <span class="hero__title-sep">·</span>
+        <span>Site Reliability Engineer</span>
+        <span class="hero__title-sep">·</span>
+        <span>AWS Cloud Platform Engineer</span>
+      </p>
+
+      <p class="hero__voice">"I make multi-tenant SaaS quietly reliable at 3&nbsp;AM — and explain why at 3&nbsp;PM."</p>
+
+      <div class="hero__cta">
+        <a class="btn btn--primary" href="assets/Anish_Saji_Kumar_Resume.pdf" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Download Resume
+        </a>
+        <a class="btn btn--ghost" href="https://www.linkedin.com/in/anish-kumar-sre-devops" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 24 22.28V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+          LinkedIn
+        </a>
+        <a class="btn btn--ghost" href="https://github.com/ANISHSAJIKUMAR" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2c-3.34.73-4.04-1.6-4.04-1.6-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.3-1.55 3.3-1.23 3.3-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3"/></svg>
+          GitHub
+        </a>
+        <a class="btn btn--ghost" href="mailto:anishskumar5@gmail.com">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Email
+        </a>
+      </div>
+
+      <p class="hero__location">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Bengaluru, India · Open to relocation
+      </p>
+
+      <a href="#metrics" class="hero__scroll" aria-label="Scroll down">
+        <span class="hero__scroll-mouse"><span class="hero__scroll-wheel"></span></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============== METRICS ============== -->
+  <section id="metrics" class="metrics" aria-label="Impact at a glance">
+    <div class="container">
+      <p class="metrics__eyebrow">Impact at a glance</p>
+      <div class="metrics__grid">
+        <div class="metric" data-reveal><div class="metric__num" data-count="165">0</div><span class="metric__plus">+</span><div class="metric__lab">AWS Environments</div></div>
+        <div class="metric" data-reveal><div class="metric__num" data-count="580">0</div><span class="metric__plus">+</span><div class="metric__lab">Repos Operated</div></div>
+        <div class="metric" data-reveal><div class="metric__num metric__num--text">24×7</div><div class="metric__lab">On-Call Coverage</div></div>
+        <div class="metric" data-reveal><div class="metric__num" data-count="5">0</div><span class="metric__plus">+</span><div class="metric__lab">Years SRE / DevOps</div></div>
+        <div class="metric" data-reveal><div class="metric__num" data-count="6">0</div><span class="metric__plus">+</span><div class="metric__lab">Years in Tech</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== ABOUT ============== -->
+  <section id="about" class="section">
+    <div class="container">
+      <p class="section__eyebrow" data-reveal>About</p>
+      <h2 class="section__title" data-reveal>The short version</h2>
+
+      <div class="about">
+        <p class="about__lead" data-reveal>
+          Site Reliability / DevOps Engineer running multi-tenant SaaS on AWS for
+          <strong>165+ Fortune-500 customer environments</strong> at Hyland (a
+          Gartner Magic Quadrant Leader for Document Management) — with 32 Nuxeo
+          Cloud tenants alongside, multiple AWS accounts and regions, end-to-end
+          ownership of 24×7 incident response on Datadog + PagerDuty,
+          blue-green PTM upgrades on Kubernetes (EKS), Terraform-driven
+          infrastructure, JVM-level Root Cause Analyses, and platform-wide
+          automation in production.
+        </p>
+        <p class="about__body" data-reveal>
+          5+ years full-time SRE / DevOps (6+ years in tech including
+          software-engineering internships) supporting Fortune-500 customers
+          in financial services, automotive, consumer goods, and insurance.
+          Operated workloads on Azure (AKS) and GCP (GKE) across customer
+          accounts.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== SKILLS ============== -->
+  <section id="skills" class="section section--alt">
+    <div class="container">
+      <p class="section__eyebrow" data-reveal>Toolbox</p>
+      <h2 class="section__title" data-reveal>Skills, in recruiter-scan order</h2>
+      <p class="section__sub" data-reveal>Cloud first. AI / LLMOps second. Then containers, IaC, observability, data, security, and the rest.</p>
+
+      <div class="skills">
+
+        <article class="skill" data-reveal>
+          <div class="skill__icon" aria-hidden="true">☁️</div>
+          <h3>Cloud (AWS)</h3>
+          <p>EC2, EKS, ECS, Fargate, Lambda, RDS / Aurora (PostgreSQL, MySQL), Aurora Serverless v2, Aurora DSQL, DynamoDB, ElastiCache, S3, EBS, ECR, IAM, KMS, SSM, VPC, ALB / NLB, Route&nbsp;53, API Gateway, Auto Scaling, Step Functions, EventBridge, SNS, SQS, MSK (Managed Kafka), AWS MQ, Athena, Glue, Kinesis, Firehose, CloudWatch, CloudTrail, AWS Backup, AWS Config, AWS Organizations, AWS Control Tower, AWS Inspector, Secrets Manager, WAF, GuardDuty, Security Hub, Cross-Account IAM, CloudShell, Cost Explorer, Compute Optimizer, Trusted Advisor.</p>
+        </article>
+
+        <article class="skill" data-reveal>
+          <div class="skill__icon" aria-hidden="true">✦</div>
+          <h3>AI-Augmented Operations / LLMOps</h3>
+          <p>Claude Code, ChatGPT (Codex), GitHub Copilot, Google Gemini, DeepSeek, Perplexity, AWS Bedrock, MCP (Model Context Protocol), Hugging Face; AI-driven RCA generation, hook-based agent guardrails, MCP integrations with Datadog, PagerDuty, Atlassian, PaaS; prompt-engineered investigation pipelines.</p>
+        </article>
+
+        <article class="skill" data-reveal>
+          <div class="skill__icon" aria-hidden="true">⎈</div>
+          <h3>Containers &amp; Orchestration</h3>
+          <p>Kubernetes, Amazon EKS, Docker, Helm, Kustomize, ArgoCD, Argo Workflows, OpenShift, Rancher, Istio, NGINX Ingress, Traefik, Cert-Manager, External-DNS, External Secrets, Sealed Secrets, Lens, k9s, RBAC, HPA; blue-green and canary deployments, GitOps; familiar with AKS, GKE.</p>
+        </article>
+
+        <article class="skill" data-reveal>
+          <div class="skill__icon" aria-hidden="true">⛁</div>
+          <h3>Infrastructure as Code</h3>
+          <p>Terraform, Terragrunt, Terraform Cloud / Enterprise, Atlantis, Spacelift, Pulumi, AWS CDK, CloudFormation, Ansible, Puppet, Chef; Bash, Python, Shell; policy-driven change workflows.</p>
+        </article>
+
+        <article class="skill" data-reveal>
+          <div class="skill__icon" aria-hidden="true">⟳</div>
+          <h3>CI / CD &amp; Release</h3>
+          <p>Jenkins, GitLab CI / CD, GitHub Actions, AWS CodePipeline, Azure DevOps, Harness, Argo Workflows, JFrog Artifactory, Nexus Repository, Maven, Gradle, Git, Bitbucket; artifact promotion, deployment gates, rollback readiness.</p>
+        </article>
+
+        <article class="skill" data-reveal>
+          <div class="skill__icon" aria-hidden="true">📈</div>
+          <h3>Observability &amp; Incident Response</h3>
+          <p>Datadog, PagerDuty, Prometheus, Grafana, Loki, CloudWatch, ELK, Splunk, Dynatrace, New Relic, OpenTelemetry, Fluentd, Fluent Bit, Vector, Logstash, Beats, Statuspage, UptimeRobot; APM, traces, RUM, synthetics, SLI / SLO, MTTR, RCA, post-mortems.</p>
+        </article>
+
+        <article class="skill" data-reveal>
+          <div class="skill__icon" aria-hidden="true">⛃</div>
+          <h3>Databases &amp; Data</h3>
+          <p>Aurora PostgreSQL, Aurora Serverless v2, Aurora DSQL, PostgreSQL, MySQL, MariaDB, DynamoDB, MongoDB, Cassandra, Redis, ElastiCache, etcd, Memcached, OpenSearch, Solr, Hazelcast, ActiveMQ, Kafka, MSK, RabbitMQ, Athena, Glue, Kinesis, Firehose; query tuning, EXPLAIN plans, index audits, parameter-group hardening, blue-green engine upgrades.</p>
+        </article>
+
+        <article class="skill" data-reveal>
+          <div class="skill__icon" aria-hidden="true">🛡️</div>
+          <h3>Security &amp; DevSecOps</h3>
+          <p>IAM least-privilege, KMS, HashiCorp Vault, Azure Key Vault, SonarQube, Fortify, SAST, DAST; secrets management, audit logging, log4j2 hardening, OpenSSF Scorecard.</p>
+        </article>
+
+        <article class="skill" data-reveal>
+          <div class="skill__icon" aria-hidden="true">⌬</div>
+          <h3>Networking &amp; Edge</h3>
+          <p>VPC, ALB / NLB, Route 53, CloudFront, CloudFront Functions, Lambda@Edge, Cloudflare, Akamai, OpenVPN, Site-to-Site VPN, AWS Direct Connect, Transit Gateway, PrivateLink; security groups, NACLs, ALB session stickiness, ALB IP rotation.</p>
+        </article>
+
+        <article class="skill" data-reveal>
+          <div class="skill__icon" aria-hidden="true">🛎️</div>
+          <h3>Service Management &amp; Collaboration</h3>
+          <p>PagerDuty, ServiceNow, Jira, Confluence, Salesforce, Slack workflows, Microsoft Teams; incident response, change management, customer escalation, runbook authoring.</p>
+        </article>
+
+        <article class="skill" data-reveal>
+          <div class="skill__icon" aria-hidden="true">⌨</div>
+          <h3>Programming &amp; Scripting</h3>
+          <p>Python (boto3, python-docx), Bash / Zsh, SQL, YAML, JSON, HCL, Groovy, jq, yq, Java (read-level, bytecode / javap forensics).</p>
+        </article>
+
+        <article class="skill" data-reveal>
+          <div class="skill__icon" aria-hidden="true">🌐</div>
+          <h3>Multi-Cloud</h3>
+          <p>Azure (AKS, Azure DevOps, Key Vault, Container Instances) and GCP (GKE, Compute Engine, Cloud Storage, Cloud IAM) for cross-cloud operations.</p>
+        </article>
+
+        <article class="skill" data-reveal>
+          <div class="skill__icon" aria-hidden="true">⚙</div>
+          <h3>Practices</h3>
+          <p>Cost Optimization (FinOps), Performance Engineering (JMeter, k6), Postgres / MySQL Performance Tuning, JVM Bytecode Forensics, Capacity Planning, Disaster Recovery, Change Management, Customer Escalation Communication.</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== EXPERIENCE ============== -->
+  <section id="experience" class="section">
+    <div class="container">
+      <p class="section__eyebrow" data-reveal>Career</p>
+      <h2 class="section__title" data-reveal>Where I've shipped</h2>
+
+      <div class="timeline">
+
+        <article class="job" data-reveal>
+          <div class="job__rail"><span class="job__dot"></span></div>
+          <div class="job__body">
+            <header class="job__head">
+              <div>
+                <h3 class="job__role">Site Reliability Engineer / DevOps Engineer</h3>
+                <p class="job__company">Hyland · Remote / Bengaluru, India</p>
+              </div>
+              <span class="job__dates job__dates--now">
+                <span class="job__dates-dot"></span> Jan 2024 – Present
+              </span>
+            </header>
+            <ul class="job__bullets">
+              <li><strong>JVM-Level RCA in Production</strong> — Diagnosed a customer incident producing ~147,513 duplicate documents through bytecode disassembly with <code>javap</code>; traced a <code>StringIndexOutOfBoundsException</code> through Spring's <code>beforeCommit</code> hook into Alfresco's <code>RetryingTransactionHelper</code> retry loop, proved the defect was customer-owned, and published a 13-section RCA with verifiable evidence.</li>
+              <li><strong>50× Faster Fleet Diagnostics</strong> — Designed a parallel database-diagnostic harness (Python + <code>xargs -P 8</code>) running 9 health queries across 14 environments concurrently — ~80&nbsp;minutes down to 1&nbsp;minute&nbsp;34&nbsp;seconds, enabling same-day root-cause work on platform-wide performance issues.</li>
+              <li><strong>Blue-Green PTM Upgrades</strong> — Authored and execute the canonical 4-hour blue-green PTM (Platform Tech Maintenance) runbook for sharded production: AMI promotion, ASG re-scale (ingestion 7→1→7, repo 5→3→5), Solr shard-lag gating (&lt;&nbsp;5k pending TX), JMeter cache warm-up, and post-swap validation against Digital Workspace, Repo, and Share APIs.</li>
+              <li><strong>Platform Operations at Scale</strong> — Operate multi-tenant Alfresco Cloud PaaS and Nuxeo Cloud on AWS across 165+ customer environments, 32 Nuxeo tenants, multiple AWS accounts, and multiple regions in production; Fortune-500 customers across financial services, automotive, consumer goods, and insurance.</li>
+              <li><strong>Stateful Middleware Tuning</strong> — Diagnosed and resolved Hazelcast cluster-split and ActiveMQ backlog issues by aligning ASG topology, scaling profiles, and IMap synchronization patterns — preventing token-replication failures (401 storms) and ALB session-stickiness regressions that affect customer logins.</li>
+              <li><strong>Pre-Upgrade Verification Engine</strong> — Engineered a one-shot pre-flight gate validating RDS snapshot freshness (&lt;&nbsp;24h), Solr shard health, DB locks, active PagerDuty incidents, monitor state, and ASG scale-in protection — returning a <code>GO / WAIT / STOP</code> verdict before any production swap.</li>
+              <li><strong>Investigation Automation</strong> — Built an end-to-end investigation engine that classifies the entry path (PD ticket / Jira / env / customer feature / silent), correlates evidence across PagerDuty, Datadog, Jira, Confluence, AWS, EKS, DB, and Solr, and produces Word-format RCAs.</li>
+              <li><strong>Custom Toolset</strong> — Built a shell-based personal toolset (db query, env introspection, SSM session, ASG inspect / rotate, Solr summary, batch-clone) automating env-to-account resolution, cross-account role assumption, container-aware execution, and batch Git operations across 580+ AWS CodeCommit repositories.</li>
+              <li><strong>Defense-in-Depth Guardrails</strong> — Architected a hook-based three-tier command policy (auto-allow / ask / deny) with secret-pattern redaction, PII exfiltration detection, AWS profile separation, and audit logging — implemented in 9 cooperating Python and Bash hooks.</li>
+              <li><strong>Observability &amp; DevSecOps</strong> — Authored Datadog monitors, dashboards, and SLOs for Tomcat threads, DB ACUs, Solr remaining-TX, customer exception tracking, and ALB IP rotation; standardized monitor messaging, IAM least-privilege, KMS encryption, and controlled release windows.</li>
+              <li><strong>24×7 On-Call Ownership</strong> — Own the 24×7 SRE rotation on PagerDuty: alert triage, customer escalation, RCA, post-mortems, runbook authoring, blast-radius control, and change-management gating.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="job" data-reveal>
+          <div class="job__rail"><span class="job__dot"></span></div>
+          <div class="job__body">
+            <header class="job__head">
+              <div>
+                <h3 class="job__role">DevOps Engineer</h3>
+                <p class="job__company">Pirimid Fintech (regulated banking technology) · Bengaluru, India / Remote</p>
+              </div>
+              <span class="job__dates">Jan 2022 – Dec 2023</span>
+            </header>
+            <ul class="job__bullets">
+              <li><strong>Fintech Platform Operations</strong> — Operated digital-lending, open-banking, capital-markets, loan-origination, data-pipeline, and API platforms in production across regulated banking and pension-fund workloads.</li>
+              <li><strong>CI / CD &amp; Release</strong> — Designed and maintained Jenkins and GitLab CI / CD pipelines for 20+ microservices across dev, staging, UAT, and production — with artifact promotion gates, environment-aware deploys, and rollback playbooks.</li>
+              <li><strong>Cloud Infrastructure</strong> — Operated AWS infrastructure for ~10 customer environments using Kubernetes, Docker, Terraform, and Ansible — parameterized modules cut typical environment-creation effort from days to hours.</li>
+              <li><strong>AWS Service Footprint</strong> — Deployed and operated EC2, VPC, ALB, RDS, S3, ECR, ECS, CloudFront, Route 53, and IAM in production across multiple customer AWS accounts — Terraform / Ansible-driven, with reusable modules shared across 5+ engagements.</li>
+              <li><strong>Production Reliability</strong> — Triaged deploy failures and infrastructure incidents across 15+ services in 4 envs (dev / staging / UAT / prod); cut release-related rollbacks by tightening pipeline gates and adding pre-deploy health checks.</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="job" data-reveal>
+          <div class="job__rail"><span class="job__dot"></span></div>
+          <div class="job__body">
+            <header class="job__head">
+              <div>
+                <h3 class="job__role">DevOps Engineer</h3>
+                <p class="job__company">TivonaGlobal Technologies (managed cloud services) · Chennai, India</p>
+              </div>
+              <span class="job__dates">Jan 2021 – Dec 2021</span>
+            </header>
+            <ul class="job__bullets">
+              <li><strong>Multi-Cloud Operations</strong> — Operated managed-cloud and DevOps engagements for SaaS, EdTech, and financial-research customers across AWS, Azure, and GCP in production.</li>
+              <li><strong>CI / CD &amp; Automation</strong> — Built CI / CD pipelines (Jenkins + GitLab + GitHub Actions) for containerized workloads on EKS / GKE — automated provisioning via Terraform, image scanning, and zero-downtime rolling updates.</li>
+              <li><strong>Cost Optimization (FinOps)</strong> — Led cloud-cost optimization (FinOps) reviews on AWS and GCP — right-sizing, reserved capacity, idle-resource cleanup — supporting customers with multi-million-dollar annual cloud spend.</li>
+            </ul>
+          </div>
+        </article>
+
+      </div>
+
+      <p class="job__early" data-reveal>
+        <strong>Early experience:</strong> Software Engineering internships at
+        XtroviX Technologies (Pune, Nov 2019 – May 2020) and SmartDigital
+        WebNMobile (Nagpur, May – Jun 2018) — Java, Python, C++, Git, Linux,
+        APIs, SDLC workflows.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============== PROJECTS ============== -->
+  <section id="projects" class="section section--alt">
+    <div class="container">
+      <p class="section__eyebrow" data-reveal>Selected projects</p>
+      <h2 class="section__title" data-reveal>Things I've designed &amp; shipped</h2>
+
+      <div class="projects">
+        <article class="project" data-reveal>
+          <span class="project__tag">AWS · On-Premises HA</span>
+          <h3>Banking Loan Platform</h3>
+          <p>Designed AWS and offline banking infrastructure using ECS, ECR, CloudFront, EC2, VPC, ALB, RDS, Redis, S3, IAM, Route 53, Terraform / Ansible automation, Nginx, HAProxy, Patroni, PostgreSQL, Prometheus, Grafana, Loki, and ETCD.</p>
+        </article>
+        <article class="project" data-reveal>
+          <span class="project__tag">Azure &amp; AWS</span>
+          <h3>Account Aggregation Platform</h3>
+          <p>Built containerized Java deployment using Azure Container Instances, Application Gateway, PostgreSQL, GitLab CI / CD, and equivalent AWS ECS / VPC / ALB / ECR / RDS patterns.</p>
+        </article>
+        <article class="project" data-reveal>
+          <span class="project__tag">AWS Migration</span>
+          <h3>Mentza Migration</h3>
+          <p>Migrated a live chat-room application from on-premises infrastructure to AWS using EC2, Lambda, ALB, Auto Scaling, VPC networking, RDS PostgreSQL read replicas, Nginx, disaster recovery, and GitHub Actions CI / CD.</p>
+        </article>
+        <article class="project" data-reveal>
+          <span class="project__tag">CI / CD</span>
+          <h3>Java Loan Application — AWS CI / CD</h3>
+          <p>Implemented GitLab CI / CD and Terraform-driven deployment for Java services using Maven builds, Selenium tests, Docker image publishing to ECR, ECS task definitions, CloudFront delivery, S3 static hosting, Redis, RDS, and ALB routing.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== EDUCATION + CERTS ============== -->
+  <section id="education" class="section">
+    <div class="container two-col">
+
+      <div data-reveal>
+        <p class="section__eyebrow">Foundations</p>
+        <h2 class="section__title">Education</h2>
+        <ul class="plain-list">
+          <li>
+            <strong>Bachelor of Engineering in Computer Science</strong>
+            <span>G. H. Raisoni College of Engineering (GHRCE), Nagpur · 2020</span>
+          </li>
+          <li>
+            <strong>12th Science (PCMB) and 10th</strong>
+            <span>Kendriya Vidyalaya Bhandara · 2013 / 2015</span>
+          </li>
+        </ul>
+
+        <h3 class="section__title section__title--small">Languages</h3>
+        <p class="lang-row">
+          <span class="lang"><strong>Malayalam</strong><span>native</span></span>
+          <span class="lang"><strong>English</strong><span>fluent</span></span>
+          <span class="lang"><strong>Hindi</strong><span>fluent</span></span>
+          <span class="lang"><strong>Marathi</strong><span>understand</span></span>
+        </p>
+      </div>
+
+      <div data-reveal>
+        <p class="section__eyebrow">Verified</p>
+        <h2 class="section__title">Certifications</h2>
+        <ul class="plain-list">
+          <li><strong>HashiCorp Certified: Terraform Associate</strong><span>Jul 2022</span></li>
+          <li><strong>Associate Cloud Engineer — Google Cloud</strong><span>Aug 2021</span></li>
+          <li><strong>Python for Data Science — NPTEL</strong><span>Oct 2019</span></li>
+          <li><strong>Fundamentals of Digital Marketing — Google Digital Garage</strong><span>Apr 2020</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============== CONTACT ============== -->
+  <section id="contact" class="section section--contact">
+    <div class="container contact" data-reveal>
+      <p class="section__eyebrow">Get in touch</p>
+      <h2 class="section__title">Let's build something quietly reliable.</h2>
+      <p class="section__lead">
+        Open to senior SRE / DevOps / Platform-Engineering roles.
+        Relocation OK. Best reach is email or LinkedIn.
+      </p>
+      <div class="contact__buttons">
+        <a class="btn btn--primary" href="mailto:anishskumar5@gmail.com">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          anishskumar5@gmail.com
+        </a>
+        <a class="btn btn--outline" href="https://www.linkedin.com/in/anish-kumar-sre-devops" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 24 22.28V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+          LinkedIn
+        </a>
+        <a class="btn btn--outline" href="https://github.com/ANISHSAJIKUMAR" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2c-3.34.73-4.04-1.6-4.04-1.6-.55-1.39-1.34-1.76-1.34-1.76-1.08-.74.08-.73.08-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.81 1.3 3.5 1 .1-.78.42-1.31.76-1.61-2.66-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.3-1.55 3.3-1.23 3.3-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.81 5.62-5.49 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .3"/></svg>
+          GitHub
+        </a>
+        <a class="btn btn--outline" href="assets/Anish_Saji_Kumar_Resume.pdf" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Resume PDF
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p>© <span id="year">2026</span> Anish Saji Kumar · Hand-built with HTML, CSS, and patience.</p>
+    <p class="footer__sub">No trackers. No cookies. Hosted on GitHub Pages.</p>
+  </div>
+</footer>
+
+<script src="assets/script.js" defer></script>
+
+</body>
+</html>
