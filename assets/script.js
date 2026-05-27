@@ -33,6 +33,55 @@ function runVT(work) {
 
 
 /* ---------------------------------------------------------------------
+   LOW-POWER DETECTION — flag weak hardware and let CSS strip decoration
+   ---------------------------------------------------------------------
+   navigator.deviceMemory     -> RAM in GB, rounded to 0.25/0.5/1/2/4/8
+                                  Reports 4 or less on most budget Androids.
+   navigator.hardwareConcurrency -> logical CPU cores. 4 or fewer is
+                                    typical of low-end phones / older laptops.
+   Either signal trips low-power mode. We set the attribute on <html>
+   before paint so the disable-decorative-animations rules in style.css
+   apply on the very first frame. Idempotent and silent.
+   --------------------------------------------------------------------- */
+(function detectLowPower() {
+  const mem   = navigator.deviceMemory;
+  const cores = navigator.hardwareConcurrency;
+  const isLow = (typeof mem === 'number' && mem <= 4)
+             || (typeof cores === 'number' && cores <= 4);
+  if (isLow) document.documentElement.setAttribute('data-low-power', '');
+})();
+
+
+/* ---------------------------------------------------------------------
+   OFFSCREEN ANIMATION PAUSE — IntersectionObserver toggles data-offscreen
+   ---------------------------------------------------------------------
+   The portfolio runs ~65 infinite CSS animations across all sections.
+   On a flagship device they're free; on a budget Android the GPU
+   compositor stays pinned and the page feels janky.
+   Sections are marked data-offscreen=true when more than ~50% out of
+   view; CSS pauses every animation inside them. The hero stays exempt
+   so the live elements (terminal cursor, name shimmer, "now" pill)
+   keep ticking.
+   --------------------------------------------------------------------- */
+(function pauseOffscreenAnimations() {
+  if (!('IntersectionObserver' in window)) return;
+  const sections = document.querySelectorAll('.section:not(.section--hero)');
+  if (!sections.length) return;
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      e.target.dataset.offscreen = e.isIntersecting ? 'false' : 'true';
+    }
+  }, { rootMargin: '200px 0px', threshold: 0 });
+  // Start every section paused; observer will flip the visible ones to
+  // data-offscreen=false on the first callback.
+  for (const s of sections) {
+    s.dataset.offscreen = 'true';
+    io.observe(s);
+  }
+})();
+
+
+/* ---------------------------------------------------------------------
    1. LIGHT / DARK MODE — flips :root[data-mode], persisted in localStorage
    --------------------------------------------------------------------- */
 (function initMode() {

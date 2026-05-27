@@ -287,10 +287,12 @@ h1, h2, h3, .section__title, .hero__name { text-wrap: balance; }
 .nav {
   position: sticky; top: 0; z-index: 50;
   background: var(--bg-glass);
-  /* Smaller blur radius is dramatically cheaper to recompute on every scroll;
-     14px → 8px is visually similar but ~30% less paint cost on the sticky bar. */
-  -webkit-backdrop-filter: saturate(160%) blur(8px);
-          backdrop-filter: saturate(160%) blur(8px);
+  /* backdrop-filter is the single most expensive CSS property on weak GPUs.
+     8px → 4px ≈ 4× cheaper to re-rasterize on every scroll frame. The visual
+     difference is barely perceptible because the nav background is already
+     mostly opaque via --bg-glass. */
+  -webkit-backdrop-filter: saturate(160%) blur(4px);
+          backdrop-filter: saturate(160%) blur(4px);
   border-bottom: 1px solid var(--line);
   /* Isolate paint to this layer so its blur doesn't invalidate ancestors. */
   contain: layout paint;
@@ -1342,8 +1344,9 @@ h1, h2, h3, .section__title, .hero__name { text-wrap: balance; }
   gap: 0.45rem;
   padding: 0.65rem 0.55rem;
   background: var(--bg-glass);
-  -webkit-backdrop-filter: blur(10px);
-          backdrop-filter: blur(10px);
+  /* Dropped backdrop-filter on the rail entirely — it sits over the empty
+     mesh background so the blur was barely visible while costing a paint
+     pass on every scroll frame. Solid --bg-glass looks identical. */
   border: 1px solid var(--line);
   border-radius: var(--radius-pill);
   box-shadow: var(--shadow-2);
@@ -3043,5 +3046,47 @@ h1, h2, h3, .section__title, .hero__name { text-wrap: balance; }
   .cluster__caption::after,
   .cluster__chaos-icon,
   .cluster--interactive .pod-bar-fg { animation: none; }
+}
+
+/* =====================================================================
+   Pause infinite animations inside offscreen sections
+   ---------------------------------------------------------------------
+   Combined with the IntersectionObserver in script.js that toggles
+   data-offscreen on each <section>, this stops 60+ infinite CSS
+   animations from burning compositor cycles when nobody can see them.
+   We exclude .nav and the hero pieces so the always-visible chrome
+   keeps animating.
+   ===================================================================== */
+.section[data-offscreen="true"] *,
+.section[data-offscreen="true"]::before,
+.section[data-offscreen="true"]::after {
+  animation-play-state: paused !important;
+}
+
+/* =====================================================================
+   Low-power mode — kill decorative loops on weak hardware
+   ---------------------------------------------------------------------
+   Set by script.js when navigator.deviceMemory <= 4 OR
+   navigator.hardwareConcurrency <= 4. Removes the heaviest infinite
+   animations (full-viewport blob drift, aurora, leaks, breathing
+   headings, looping shimmer) so the GPU compositor isn't pinned.
+   The site still looks the same — just static instead of animated.
+   ===================================================================== */
+:root[data-low-power] .bg-mesh__blob,
+:root[data-low-power] .bg-aurora,
+:root[data-low-power] .bg-leaks__a,
+:root[data-low-power] .bg-leaks__b,
+:root[data-low-power] .hero__name,
+:root[data-low-power] .hero__name-accent,
+:root[data-low-power] .section__title.in-view {
+  animation: none !important;
+}
+
+/* Hide the heaviest decorative layers entirely on low-power.
+   They're full-viewport gradients with multi-color radial blends —
+   even static, they cost paint on weak GPUs. */
+:root[data-low-power] .bg-aurora,
+:root[data-low-power] .bg-leaks {
+  display: none;
 }
 
