@@ -104,7 +104,6 @@ jobs:
           #     fail the run.
           args: >-
             --no-progress
-            --exclude-mail
             --exclude-loopback
             --exclude '^https://www\.linkedin\.com'
             --exclude '^https://anishsajikumar\.github\.io'
