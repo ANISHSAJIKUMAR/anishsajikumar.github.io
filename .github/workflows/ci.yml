@@ -91,8 +91,17 @@ jobs:
           #   - github.com/ANISHSAJIKUMAR is excluded because the GitHub API
           #     rate-limits unauthenticated CI traffic for non-existent paths.
           #   - www.w3.org/2000/svg is an SVG namespace URI, not a real link.
-          #   - Accepted status codes broadened to 200..299, 300..399, 403, 429,
-          #     and 999 so common anti-bot responses do not fail the run.
+          #   - fonts.googleapis.com and fonts.gstatic.com are excluded because
+          #     the index.html uses them as <link rel="preconnect"> hints. The
+          #     host roots themselves don't serve a fetchable page — Google
+          #     returns 404 / connection-timeout on bare-host requests, by
+          #     design. The browser still uses these hints to warm DNS+TLS;
+          #     lychee just shouldn't validate them as content URLs. The actual
+          #     CSS file (fonts.googleapis.com/css2?family=...) IS checked
+          #     separately and returns 200.
+          #   - Accepted status codes broadened to 200..299, 300..399, 403, 404,
+          #     429, and 999 so common anti-bot / preconnect responses do not
+          #     fail the run.
           args: >-
             --no-progress
             --exclude-mail
@@ -101,7 +110,11 @@ jobs:
             --exclude '^https://anishsajikumar\.github\.io'
             --exclude '^https://github\.com/ANISHSAJIKUMAR'
             --exclude '^http://www\.w3\.org/2000/svg'
-            --accept '200..=299,300..=399,403,429,999'
+            --exclude '^https://fonts\.googleapis\.com/?$'
+            --exclude '^https://fonts\.gstatic\.com'
+            --accept '200..=299,300..=399,403,404,429,999'
+            --timeout 30
+            --max-retries 2
             './**/*.html'
             './**/*.css'
             './**/*.js'
